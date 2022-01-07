@@ -1,0 +1,38 @@
+plugins {
+	id 'org.openjfx.javafxplugin' version '0.0.10'
+}
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+group = 'io.cjhosken'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '16'
+
+mainClassName = 'io.cjhosken.javaraytracerapp.JavaRaytracerAppApplication'
+
+repositories {
+	mavenCentral()
+	maven {
+		url "https://maven.jzy3d.org/releases"
+	}
+	maven {
+		url "https://maven.jzy3d.org/snapshots"
+	}
+}
+
+dependencies {
+	implementation "org.jogamp.gluegen:gluegen-rt:2.3.2"
+	implementation "org.jogamp.jogl:jogl-all:2.3.2"
+
+	implementation "org.jogamp.gluegen:gluegen-rt:2.3.2:natives-linux-amd64"
+	implementation "org.jogamp.gluegen:gluegen-rt:2.3.2:natives-windows-amd64"
+
+	implementation "org.jogamp.jogl:jogl-all:2.3.2:natives-linux-amd64"
+	implementation "org.jogamp.jogl:jogl-all:2.3.2:natives-windows-amd64"
+}
+
+javafx {
+	version = "17"
+	modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.swing' ]
+}
