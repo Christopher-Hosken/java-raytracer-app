@@ -86,9 +86,9 @@ stylesheets="css/style.css">
                         </ImageView>
                      </graphic>
                      <items>
-                        <MenuItem text="Plane" styleClass="dropdown-item"/>
-                        <MenuItem text="Cube" styleClass="dropdown-item"/>
-                        <MenuItem text="Sphere" styleClass="dropdown-item"/>
+                        <MenuItem text="Plane" styleClass="dropdown-item" onAction="#addPlane"/>
+                        <MenuItem text="Cube" styleClass="dropdown-item"  onAction="#addCube"/>
+                        <MenuItem text="Sphere" styleClass="dropdown-item"  onAction="#addSphere"/>
                      </items>
                   </MenuButton>
                   <Button text="" ButtonBar.buttonData="RIGHT" prefHeight="48.0" maxWidth="48.0" maxHeight="48.0" mnemonicParsing="false" styleClass="icon-button">

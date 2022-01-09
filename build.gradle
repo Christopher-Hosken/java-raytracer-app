@@ -6,7 +6,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 group = 'io.cjhosken'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = '16'
 
 mainClassName = 'io.cjhosken.javaraytracerapp.JavaRaytracerAppApplication'

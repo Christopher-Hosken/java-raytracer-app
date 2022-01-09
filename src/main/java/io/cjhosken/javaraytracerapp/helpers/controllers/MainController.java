@@ -1,4 +1,4 @@
-package io.cjhosken.javaraytracerapp;
+package io.cjhosken.javaraytracerapp.helpers.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
@@ -13,16 +13,19 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 
-import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.util.Animator;
+
+import io.cjhosken.javaraytracerapp.rendering.opengl.GLRenderer;
 
 public class MainController {
     @FXML private GridPane root;
     @FXML private HBox header;
     private Animator animator;
+    private GLRenderer renderer;
 
-    public MainController(Animator anim) {
-        animator = anim;
+    public MainController(GLRenderer renderer, Animator animator) {
+        this.renderer = renderer;
+        this.animator = animator;
     }
 
     @FXML
@@ -79,5 +82,22 @@ public class MainController {
         writer.println(content);
         writer.close();
     }
+
+
+    @FXML
+    private void addPlane() {
+        renderer.addObject("plane");
+    }
+
+    @FXML
+    private void addSphere() {
+        renderer.addObject("sphere");
+    }
+
+    @FXML
+    private void addCube() {
+        renderer.addObject("cube");
+    }
+
 
 }
