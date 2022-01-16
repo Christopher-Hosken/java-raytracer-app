@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane prefHeight="680.0" prefWidth="320.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17">
+  <tabs>
+      <Tab text="Scene">
+        <content>
+          <VBox>
+            <children>
+              <VBox>
+                <children>
+                  <Label text="Viewport"/>
+                </children>
+              </VBox>
+              <VBox>
+                <children>
+                  <Label text="World"/>
+                </children>
+              </VBox>
+              <VBox>
+                <children>
+                  <Label text="Extra"/>
+                </children>
+              </VBox>
+            </children>
+          </VBox>
+        </content>
+      </Tab>
+      <Tab text="Rendering">
+        <content>
+          <VBox>
+            <children>
+              <VBox>
+                <children>
+                  <Label text="Resolution"/>
+                </children>
+              </VBox>
+              <VBox>
+                <children>
+                  <Label text="Sampling"/>
+                </children>
+              </VBox>
+              <VBox>
+                <children>
+                  <Label text="Output"/>
+                </children>
+              </VBox>
+            </children>
+          </VBox>
+        </content>
+      </Tab>
+      <Tab text="Object">
+        <content>
+          <VBox>
+            <children>
+              <VBox>
+                <children>
+                  <Label text="Name"/>
+                </children>
+              </VBox>
+              <VBox>
+                <children>
+                  <Label text="Transform"/>
+                </children>
+              </VBox>
+              <VBox>
+                <children>
+                  <Label text="Material"/>
+                </children>
+              </VBox>
+            </children>
+          </VBox>
+        </content>
+      </Tab>
+  </tabs>
+</TabPane>

@@ -3,6 +3,9 @@ package io.cjhosken.javaraytracerapp.helpers.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Box;
+import javafx.scene.shape.Cylinder;
+import javafx.scene.shape.Sphere;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.awt.*;
@@ -13,24 +16,21 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 
-import com.jogamp.opengl.util.Animator;
-
-import io.cjhosken.javaraytracerapp.rendering.opengl.GLRenderer;
+import io.cjhosken.javaraytracerapp.rendering.fx3d.FX3DRenderer;
+import io.cjhosken.javaraytracerapp.rendering.fx3d.RendererObject;
+import io.cjhosken.javaraytracerapp.rendering.fx3d.importers.ObjModel;
 
 public class MainController {
     @FXML private GridPane root;
     @FXML private HBox header;
-    private Animator animator;
-    private GLRenderer renderer;
+    private FX3DRenderer renderer;
 
-    public MainController(GLRenderer renderer, Animator animator) {
+    public MainController(FX3DRenderer renderer) {
         this.renderer = renderer;
-        this.animator = animator;
     }
 
     @FXML
     private void closeApp() {
-        animator.stop();
         Stage stage = (Stage) root.getScene().getWindow();
         stage.close();
     }
@@ -43,7 +43,7 @@ public class MainController {
 
     @FXML
     private void reportBug() throws IOException, URISyntaxException {
-        Desktop.getDesktop().browse(new URI("https://github.com/Christopher-Hosken/java_raytracer_app/issues"));
+        Desktop.getDesktop().browse(new URI("https://github.com/Christopher-Hosken/java-raytracer-app/issues"));
     }
 
     @FXML
@@ -86,18 +86,40 @@ public class MainController {
 
     @FXML
     private void addPlane() {
-        renderer.addObject("plane");
+        renderer.addToWorld(new RendererObject(new Box(2, 0, 2)));
     }
 
     @FXML
     private void addSphere() {
-        renderer.addObject("sphere");
+        renderer.addToWorld(new RendererObject(new Sphere()));
     }
 
     @FXML
     private void addCube() {
-        renderer.addObject("cube");
+        renderer.addToWorld(new RendererObject(new Box()));
     }
 
+    @FXML
+    private void addCylinder() {
+        renderer.addToWorld(new RendererObject(new Cylinder()));
+    }
 
+    @FXML
+    private void addTeapot() throws IOException {
+        renderer.addToWorld(new RendererObject(new ObjModel(new File("models/teapot_low.obj"))));
+    }
+
+    @FXML
+    private void importOBJ() throws IOException {
+        Stage stage = (Stage) root.getScene().getWindow();
+        File defaultDir = new File(Paths.get("models").toAbsolutePath().normalize().toString());
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Wavefront (*.obj)", "*.obj"));
+        fileChooser.setInitialDirectory(defaultDir);
+        fileChooser.setTitle("Import Object");
+        File file = fileChooser.showOpenDialog(stage);
+
+        renderer.addToWorld(new RendererObject(new ObjModel(file)));
+        System.out.println("Model Imported");
+    }
 }

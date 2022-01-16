@@ -2,104 +2,64 @@ package io.cjhosken.javaraytracerapp;
 
 import java.io.IOException;
 
-import javax.swing.SwingUtilities;
-
-import com.jogamp.opengl.GLCapabilities;
-import com.jogamp.opengl.GLProfile;
-import com.jogamp.opengl.awt.GLJPanel;
-import com.jogamp.opengl.util.Animator;
-
 import io.cjhosken.javaraytracerapp.helpers.controllers.MainController;
+import io.cjhosken.javaraytracerapp.helpers.controllers.SceneController;
 import io.cjhosken.javaraytracerapp.helpers.handlers.MainEventHandler;
-import io.cjhosken.javaraytracerapp.rendering.opengl.GLRenderer;
+import io.cjhosken.javaraytracerapp.rendering.fx3d.FX3DRenderer;
 import javafx.application.Application;
-import javafx.embed.swing.SwingNode;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonBar;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class JavaRaytracerAppApplication extends Application {
     private MainController controller;
-    private MainEventHandler eventHandler;
+    private SceneController sceneController;
+    private MainEventHandler events;
+    private FX3DRenderer renderer;
 
 	@Override
     public void start(Stage stage) throws IOException {
-        // Window Size
         int width = 1280;
         int height = 720;
 
-        // JOGL Setup
-
-        final GLCapabilities capabilities = new GLCapabilities(GLProfile.getDefault());
-        capabilities.setDoubleBuffered(true);
-        capabilities.setHardwareAccelerated(true);
-
-        GLJPanel canvas = new GLJPanel(capabilities);
-        GLRenderer renderer = new GLRenderer();
-        canvas.addGLEventListener(renderer);
-        canvas.addMouseMotionListener(renderer);
-        canvas.addMouseWheelListener(renderer);
-        canvas.addMouseListener(renderer);
-        canvas.addKeyListener(renderer);
-
-        Animator animator = new Animator(canvas);
-        animator.start();
-
-        // Loading FXML File
-
         FXMLLoader loader = new FXMLLoader(this.getClass().getClassLoader().getResource("fxml/main.fxml"));
-        eventHandler = new MainEventHandler(stage);
-        controller = new MainController(renderer, animator);
+        FXMLLoader sceneLoader = new FXMLLoader(this.getClass().getClassLoader().getResource("fxml/sceneInfo.fxml"));
+
+        renderer = new FX3DRenderer();
+        events = new MainEventHandler(stage, renderer);
+        controller = new MainController(renderer);
+        sceneController = new SceneController(renderer);
 
         loader.setController(controller);
         Parent root = loader.load();
-        
-        Rectangle rect = new Rectangle(1280, 720);
-        rect.setArcHeight(70.0);
-        rect.setArcWidth(70.0);
-        root.setClip(rect);
+
+        sceneLoader.setController(sceneController);
+        TabPane sceneRoot = sceneLoader.load();
+        renderer.setPropertiesPanel(sceneRoot);
 
         Scene scene = new Scene(root, width, height);
-
-        // Event Handlers and GL Implementation
+        scene.setOnKeyPressed(events.keyPressEvent);
 
         StackPane viewportContainer = (StackPane) scene.lookup("#viewport");
+        StackPane setttingsContainer = (StackPane) scene.lookup("#settings");
 
-        HBox header = (HBox) scene.lookup("#header");
-        ButtonBar headerBar = (ButtonBar) scene.lookup("#headerBar");
-
-        header.setOnMousePressed(eventHandler.mousePressEvent);
-        headerBar.setOnMousePressed(eventHandler.mousePressEvent);
-
-        header.setOnMouseDragged(eventHandler.headerDragEvent);
-        headerBar.setOnMouseDragged(eventHandler.headerDragEvent);
-
-        SwingNode swingNode = new SwingNode();
-
-        viewportContainer.getChildren().add(swingNode);
-
-        SwingUtilities.invokeLater(new Runnable() {
+        Platform.runLater(new Runnable() {
             public void run() {
-                swingNode.setContent(canvas);
+                viewportContainer.getChildren().add(renderer.scene());
+                setttingsContainer.getChildren().add(renderer.propertiesPanel().root());
+                
             }
         });
 
-        // Stage Setup
-
-        stage.initStyle(StageStyle.TRANSPARENT);
-        scene.setFill(Color.TRANSPARENT);
         stage.getIcons().add(new Image("css/icons/logo/logo_64.png"));
         stage.setTitle("Java Renderer");
+        stage.setResizable(false);
         stage.setScene(scene);
-        stage.toFront();
         stage.show();
     }
 
