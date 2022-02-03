@@ -31,8 +31,16 @@ public class MainEventHandler {
                     renderer.camera().setTranslateX(0);
                     renderer.camera().setTranslateY(0);
                     renderer.camera().setTranslateZ(-25);
-                    renderer.angleX().set(0);
-                    renderer.angleY().set(0);
+
+                    if (!renderer.isInRenderCam()) {
+                        renderer.angleX().set(0);
+                        renderer.angleY().set(0);
+                    } else {
+                        renderer.renderAngleX().set(0);
+                        renderer.renderAngleY().set(0);
+                    }
+                    
+                    
                 } else if (event.getCode() == KeyCode.DELETE
                         || (event.isControlDown() && event.getCode() == KeyCode.X)) {
                     renderer.deleteSelected();

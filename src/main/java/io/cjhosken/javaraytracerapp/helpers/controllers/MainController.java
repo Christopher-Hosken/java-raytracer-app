@@ -1,6 +1,9 @@
 package io.cjhosken.javaraytracerapp.helpers.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Box;
@@ -121,5 +124,17 @@ public class MainController {
 
         renderer.addToWorld(new RendererObject(new ObjModel(file)));
         System.out.println("Model Imported");
+    }
+
+    @FXML
+    private void toggleRenderCam() {
+        renderer.toggleRenderCamera();
+        Stage stage = (Stage) root.getScene().getWindow();
+        ImageView img = (ImageView) stage.getScene().lookup("#viewbuttonicon"); 
+        if (renderer.isInRenderCam()) {
+            img.setImage(new Image("css/icons/photo_camera/photo_camera_24.png"));
+        } else {
+            img.setImage(new Image("css/icons/eye/eye_24.png"));
+        }
     }
 }

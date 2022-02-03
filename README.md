@@ -8,7 +8,6 @@ Things to work on:
     - TRANSFORM OBJECTS: Figure out how to transform objects (move, rotate, scale) using shortcuts (or handles)
     - OBJ MATERIALS: Read MTL files to display textures on obj models
 - Rendering 
-    - SETUP CAMERA: Get a viewport camera working.
     - READ CURRENT SCENE: Get OpenGL scene data and prepare for rendering.
     - RENDER: get rendering working and output to specified folder.
 - Extra

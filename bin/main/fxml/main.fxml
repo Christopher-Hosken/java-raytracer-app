@@ -53,11 +53,11 @@ stylesheets="css/style.css">
                         <MenuItem text="Import (.obj)" styleClass="dropdown-item"  onAction="#importOBJ"/>
                      </items>
                   </MenuButton>
-                  <Button text="" ButtonBar.buttonData="RIGHT" prefHeight="48.0" maxWidth="48.0" maxHeight="48.0" mnemonicParsing="false" styleClass="icon-button">
+                  <Button text="" ButtonBar.buttonData="RIGHT" prefHeight="48.0" maxWidth="48.0" maxHeight="48.0" mnemonicParsing="false" styleClass="icon-button" onAction="#toggleRenderCam">
                      <graphic>
-                        <ImageView fitHeight="24.0" preserveRatio="true">
+                        <ImageView fx:id="viewbuttonicon" fitHeight="24.0" preserveRatio="true">
                               <image>
-                                 <Image url="@../css/icons/photo_camera/photo_camera_24.png"/>
+                                 <Image url="@../css/icons/eye/eye_24.png"/>
                               </image>
                         </ImageView>
                      </graphic>
