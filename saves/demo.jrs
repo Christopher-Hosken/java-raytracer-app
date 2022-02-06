@@ -1,21 +1,52 @@
 {
     "info": {
-        "version" : "v00",
+        "version" : "v01",
         "lastSaved" : "06_01_2022",
         "comment" : "The JRS (Java Raytracer Scene) file extension is specific to the Java Raytracer App. It's essentially just a fancy JSON file."
     },
     "scene": {
-        "renderSettings" : {
+        "settings" : {
             "resolution": [1280, 720],
             "samples" : 16,
             "bounces" : 4,
             "camera" : {
                 "location" : [0, 0, 0],
-                "direction" : [0, 0, 1]
+                "rotation" : [0, 0, 1]
             }
         },
         "world" : {
-            "objects": []
+            "objects": [
+                {
+                    "name" : "Object",
+                    "type" : "type",
+                    "location" : [0, 0, 0],
+                    "rotation" : [0, 0, 0],
+                    "scale" : [1, 1, 1],
+                }
+            ]
+            "meshObjects" : [
+                {
+                    "name" : "MeshObject",
+                    "location" : [0, 0, 0].
+                    "rotation" : [0, 0, 0],
+                    "scale" : [1, 1, 1],
+                    "vertices" : [
+
+                    ]
+
+                    "texCoords" : [
+
+                    ]
+
+                    "normals" : [
+
+                    ]
+
+                    "faces" : [
+
+                    ]
+                }
+            ]
         }
     }
 }

@@ -89,27 +89,52 @@ public class MainController {
 
     @FXML
     private void addPlane() {
-        renderer.addToWorld(new RendererObject(new Box(2, 0, 2)));
+        Box model = new Box(2, 0, 2);
+        RendererObject obj = new RendererObject(model);
+        obj.setMesh(false);
+        obj.setType("plane");
+
+        renderer.addToWorld(obj);
     }
 
     @FXML
     private void addSphere() {
-        renderer.addToWorld(new RendererObject(new Sphere()));
+        Sphere model = new Sphere();
+        RendererObject obj = new RendererObject(model);
+        obj.setMesh(false);
+        obj.setType("sphere");
+
+        renderer.addToWorld(obj);
     }
 
     @FXML
     private void addCube() {
-        renderer.addToWorld(new RendererObject(new Box()));
+        Box model = new Box();
+        RendererObject obj = new RendererObject(model);
+        obj.setMesh(false);
+        obj.setType("box");
+
+        renderer.addToWorld(obj);
     }
 
     @FXML
     private void addCylinder() {
-        renderer.addToWorld(new RendererObject(new Cylinder()));
+        Cylinder model = new Cylinder();
+        RendererObject obj = new RendererObject(model);
+        obj.setMesh(false);
+        obj.setType("cylinder");
+
+        renderer.addToWorld(obj);
     }
 
     @FXML
     private void addTeapot() throws IOException {
-        renderer.addToWorld(new RendererObject(new ObjModel(new File("models/teapot_low.obj"))));
+        ObjModel model = new ObjModel(new File("models/teapot_low.obj"));
+        RendererObject obj = new RendererObject(model);
+        obj.setMesh(true);
+        obj.setType("obj");
+
+        renderer.addToWorld(obj);
     }
 
     @FXML
@@ -122,7 +147,12 @@ public class MainController {
         fileChooser.setTitle("Import Object");
         File file = fileChooser.showOpenDialog(stage);
 
-        renderer.addToWorld(new RendererObject(new ObjModel(file)));
+        ObjModel model = new ObjModel(file);
+        RendererObject obj = new RendererObject(model);
+        obj.setMesh(true);
+        obj.setType("obj");
+
+        renderer.addToWorld(obj);
         System.out.println("Model Imported");
     }
 

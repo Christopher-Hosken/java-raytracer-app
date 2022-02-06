@@ -33,22 +33,62 @@
       </Tab>
       <Tab text="Rendering">
         <content>
-          <VBox>
+          <VBox spacing="20.0">
+            <padding>
+              <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
             <children>
               <VBox>
                 <children>
                   <Label text="Resolution"/>
+                  <HBox alignment="CENTER_RIGHT" spacing="5">
+                    <children>
+                      <Label text="X"/>
+                      <TextField id="render_resolution_x" fx:id="render_resolution_x"/>
+                    </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" spacing="5">
+                    <children>
+                      <Label text="Y"/>
+                      <TextField id="render_resolution_y" fx:id="render_resolution_y"/>
+                    </children>
+                  </HBox>
                 </children>
               </VBox>
               <VBox>
                 <children>
-                  <Label text="Sampling"/>
+                  <Label text="Sampling" alignment="CENTER"/>
+                  <HBox alignment="CENTER_RIGHT" spacing="5">
+                    <children>
+                      <Label text="Samples"/>
+                      <TextField id="samples" fx:id="samples"/>
+                    </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" spacing="5">
+                    <children>
+                      <Label text="Bounces"/>
+                      <TextField id="bounces" fx:id="bounces"/>
+                    </children>
+                  </HBox>
                 </children>
               </VBox>
               <VBox>
                 <children>
-                  <Label text="Output"/>
+                  <Label text="Output" alignment="CENTER"/>
+                  <HBox alignment="CENTER" fx:id="render_resolution">
+                    <children>
+                      <TextField id="output_path" fx:id="output_path" prefWidth="240"/>
+                      <Button id="output_path_button" fx:id="output_path_button" prefWidth="25"/>
+                    </children>
+                  </HBox>
                 </children>
+              </VBox>
+              <VBox>
+                <HBox alignment="CENTER">
+                  <children>
+                    <Button id="render_button" fx:id="render_button" prefWidth="260" prefHeight="40"/>
+                  </children>
+                </HBox>
               </VBox>
             </children>
           </VBox>

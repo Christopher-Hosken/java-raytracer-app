@@ -61,6 +61,7 @@ public class FX3DRenderer {
 
     public void setPropertiesPanel(TabPane pane) {
         propertiesPanel = new PropertiesPanel(pane);
+        propertiesPanel.setRenderer(this);
     }
 
     public PropertiesPanel propertiesPanel() {
@@ -99,9 +100,17 @@ public class FX3DRenderer {
         return this.scene;
     }
 
-    public Camera camera() {
-        return this.camera;
+    public Group objects() {
+        return this.objects;
     }
+
+    public Camera camera() {
+            return this.camera;
+    }
+
+    public Camera renderCamera() {
+        return this.renderCamera;
+}
 
     public DoubleProperty angleX() {
         return this.angleX;

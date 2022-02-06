@@ -8,6 +8,8 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Shape3D;
 
 public class RendererObject extends Group {
+    private String type = "object";
+    private boolean isMesh = false;
     private boolean isSelected = false;
     private ObjectData objectData;
 
@@ -34,6 +36,21 @@ public class RendererObject extends Group {
             }
 
         }
+    }
 
+    public void setType(String s) {
+        type = s;
+    }
+
+    public String type() {
+        return type;
+    }
+
+    public void setMesh(boolean m) {
+        isMesh = m;
+    }
+
+    public boolean isMesh() {
+        return isMesh;
     }
 }
