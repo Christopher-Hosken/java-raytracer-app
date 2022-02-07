@@ -70,4 +70,18 @@ public class JRSFile {
         settings.fromJSON(jrs.getJSONObject("settings"));
         world.fromJSON(jrs.getJSONObject("world"));
     }
+    /*
+    public static JRSFile load(File file) {
+        JRSFile jrsFile;
+        JSONObject jrs = (JSONObject) parser.parse(new FileReader(file));
+        jrsFile.fromJSON(jrs);
+        System.out.println("Java Raytracer Scene File: " + file + "Opened");
+        return jrsFile;
+    }
+    
+    public void save(File file) {
+    
+    }
+    
+    */
 }
