@@ -18,7 +18,7 @@ public class JRSWorld {
     public PaverWorld toPaverWorld() {
         PaverWorld world = new PaverWorld();
         world.setCamera(camera.toPaverCamera());
-        world.objectsFromJRSObjects(objects);
+        world.objectsFromJRSArray(objects);
     }
 
     public JSONObject toJSON() {
