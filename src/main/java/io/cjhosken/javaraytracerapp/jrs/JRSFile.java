@@ -18,6 +18,12 @@ public class JRSFile {
     public JRSFile() {
         setDate();
     }
+    
+    public JRSFile(JRSSettings settings, JRSWorld world) {
+        this.settings = settings;
+        this.world = world;
+        setDate();
+    }
 
     public String version() {
         return version;
