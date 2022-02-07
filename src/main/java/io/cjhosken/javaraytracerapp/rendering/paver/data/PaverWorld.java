@@ -20,11 +20,11 @@ public class PaverWorld {
     this.objects = objects;
   }
   
-  public void objectsFromJRSObjects(JRSObject[] jrsObjects) {
+  public void objectsFromJRSArray(JRSObject[] jrsObjects) {
     objects = new PaverObject[jrsObjects.length];
     
     for (int idx = 0; idx < objects.length; idx++) {
-      objects[idx] = PaverObject.fromJRSObject(jrsObjects[idx]);
+      objects[idx] = PaverObject.fromJRS(jrsObjects[idx]);
     }
   }
 }
