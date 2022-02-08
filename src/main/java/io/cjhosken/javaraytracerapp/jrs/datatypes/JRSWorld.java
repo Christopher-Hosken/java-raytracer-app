@@ -20,11 +20,21 @@ public class JRSWorld {
         return objects;
     }
     
+    public void setCamera(JRSCamera camera) {
+        this.camera = camera;
+    }
+    
+    public void setObjects(JRSObject[] objects) {
+        this.objects = objects;
+    }
+    
     public PaverWorld toPaverWorld() {
         PaverWorld world = new PaverWorld();
         world.setCamera(camera.toPaverCamera());
         world.objectsFromJRSArray(objects);
     }
+    
+    
 
     public JSONObject toJSON() {
         JSONObject world = new JSONObject();
