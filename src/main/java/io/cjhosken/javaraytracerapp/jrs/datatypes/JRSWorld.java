@@ -4,8 +4,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class JRSWorld {
-    private JRSObject[] objects = new JRSObject[0];
-    private JRSCamera camera = new JRSCamera();
+    private JRSObject[] objects;
+    private JRSCamera camera;
+    
+    public JRSWorld() {
+        objects = new JRSObject[0];
+        camera = new JRSCamera();
+    }
 
     public JRSCamera camera() {
         return camera;
