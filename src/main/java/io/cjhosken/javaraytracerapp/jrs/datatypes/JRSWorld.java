@@ -28,14 +28,23 @@ public class JRSWorld {
         this.objects = objects;
     }
     
+    public Group toFX3D() {
+        return new Group();
+    }
+    
     public PaverWorld toPaverWorld() {
         PaverWorld world = new PaverWorld();
         world.setCamera(camera.toPaverCamera());
         world.objectsFromJRSArray(objects);
     }
     
+    public void fromFX3D(Group world) {
+    }
     
-
+    public void fromPaverWorld(PaverWorld world) {
+    }
+    
+    
     public JSONObject toJSON() {
         JSONObject world = new JSONObject();
         world.put("camera", camera.toJSON());
