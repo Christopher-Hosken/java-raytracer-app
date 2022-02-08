@@ -4,9 +4,15 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class JRSSettings {
-    private int[] resolution = new int[] {680, 420};
-    private int samples = 16;
-    private int bounces = 4;
+    private int[] resolution;
+    private int samples;
+    private int bounces;
+
+    public JRSSettings() {
+        resolution = new int[] {680, 420};
+        samples = 16;
+        bounces = 4;
+    }
     
     public int width() {
         return resolution[0];

@@ -3,6 +3,8 @@ package io.cjhosken.javaraytracerapp.core;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javafx.scene.paint.Color;
+
 public class Vector3d {
     public double x,y,z;
 
@@ -166,5 +168,9 @@ public class Vector3d {
 
     public JSONArray toJSONArray() {
         return new JSONArray(new double[] {x, y, z});
+    }
+
+    public Color toColor() {
+        return new Color(x, y, z, 1);
     }
 }

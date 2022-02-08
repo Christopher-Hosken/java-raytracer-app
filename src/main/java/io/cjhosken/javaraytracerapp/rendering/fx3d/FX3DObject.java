@@ -1,3 +1,13 @@
+package io.cjhosken.javaraytracerapp.rendering.fx3d;
+
+import io.cjhosken.javaraytracerapp.core.Vector3d;
+import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSObject;
+import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSObjectType;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.shape.Shape3D;
+import javafx.scene.shape.TriangleMesh;
+
 public class FX3DObject extends Group {
   private String name;
   private JRSObjectType type = JRSObjectType.EMPTY;
@@ -5,48 +15,67 @@ public class FX3DObject extends Group {
   private FX3DShader shader;
   private TriangleMesh mesh;
   
-  public RendererObject(Group ob) {
-    super(ob);
+  public FX3DObject(Group group) {
+    super(group);
+  }
+
+  public FX3DObject(Node node) {
+    super(node);
+  }
+
+  public String name() {
+    return name;
+  }
+
+  public JRSObjectType type() {
+    return type;
   }
   
   public boolean isSelected() {
     return isSelected;
   }
-  
+
+  public FX3DShader shader() {
+    return shader;
+  }
+
+  public TriangleMesh mesh() {
+    return mesh;
+  }
+
+  public void setType(JRSObjectType type) {
+    this.type = type;
+  }
+
   public void setSelected(boolean select) {
     isSelected = select;
     for (int idx = 0; idx < getChildren().size(); idx++) {
-      Shape3D obj = (Shape3D) getChildren.get(idx);
+      Shape3D obj = (Shape3D) getChildren().get(idx);
       obj.setMaterial(shader.toPhong());
     }
   }
-  
-  public void setType(JRSOBjectType type) {
-    this.type = type;
-  }
-  
-  public JRSOBjectType type() {
-    return type;
+
+  public void setShader(FX3DShader shader) {
+    this.shader = shader;
   }
   
   public void setMesh(TriangleMesh mesh) {
-     this.mesh = mesh;
+    this.mesh = mesh;
   }
   
   public JRSObject toJRS() {
-    JRSOBject obj = new JRSObject();
-    
+    JRSObject obj = new JRSObject();
     obj.setName(name);
     obj.setType(type);
-    obj.setLocation(new Vector3d());
+    obj.setLocation(new Vector3d(getTranslateX(), getTranslateY(), getTranslateZ()));
     obj.setRotation(new Vector3d());
-    obj.setScale(new Vector3d());
+    obj.setScale(new Vector3d(getScaleX(), getScaleY(), getScaleZ()));
     
     if (type == JRSObjectType.OBJ) {
-      obj.setMesh(mesh);
+      obj.fromTriangleMesh(mesh);
     }
     
-    obj.setShader(shader);
+    obj.shader().fromFX3D(shader);
     
     return obj;
   }
@@ -54,20 +83,20 @@ public class FX3DObject extends Group {
   public void fromJRS(JRSObject jrs) {
     name = jrs.name();
     type = jrs.type();
-    setTranslateX();
-    setTranslateY();
-    setTranslateZ();
-    setRotate();
-    setRotate();
-    setRotate();
-    setScaleX();
-    setScaleY();
-    setScaleZ();
+    setTranslateX(jrs.location().x);
+    setTranslateY(jrs.location().y);
+    setTranslateZ(jrs.location().z);
+    setRotate(0);
+    setRotate(0);
+    setRotate(0);
+    setScaleX(1);
+    setScaleY(1);
+    setScaleZ(1);
     
     if (type == JRSObjectType.OBJ) {
-      mesh = jrs.mesh();
+      mesh = jrs.triangleMesh();
     }
     
-    shader = jrs.shader();
+    shader = jrs.shader().toFX3D();
   }
 }

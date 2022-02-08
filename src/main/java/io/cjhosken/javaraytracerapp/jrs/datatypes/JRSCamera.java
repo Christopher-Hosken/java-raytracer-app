@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 import io.cjhosken.javaraytracerapp.core.Vector3d;
 import io.cjhosken.javaraytracerapp.jrs.JRSFile;
+import io.cjhosken.javaraytracerapp.rendering.paver.data.PaverCamera;
 
 public class JRSCamera {
     private Vector3d location;
@@ -15,7 +16,7 @@ public class JRSCamera {
 
     public JRSCamera() {
         location = new Vector3d();
-        rotation = new Vector3d();
+        direction = new Vector3d();
         aperture = 2.0;
         fov = 60.0;
         dof = false;
@@ -72,6 +73,17 @@ public class JRSCamera {
     
     public static JRSCamera fromJRS(JRSFile file) {
         return file.world().camera();
+    }
+
+    public PaverCamera toPaverCamera() {
+        PaverCamera camera = new PaverCamera();
+        camera.setLocation(location);
+        camera.setDirection(direction);
+        camera.setAperture(aperture);
+        camera.setFOV(fov);
+        camera.setDOF(dof);
+        camera.setFocusDistance(focusDistance);
+        return camera;
     }
 
     public JSONObject toJSON() {

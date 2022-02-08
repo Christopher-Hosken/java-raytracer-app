@@ -3,14 +3,18 @@ package io.cjhosken.javaraytracerapp.jrs.datatypes;
 import org.json.JSONObject;
 
 import io.cjhosken.javaraytracerapp.core.Vector3d;
+import io.cjhosken.javaraytracerapp.rendering.fx3d.FX3DShader;
 
 public class JRSShader {
-    private String name = "";
-    private Vector3d color = new Vector3d(1, 0, 1);
-    private double specular = 1;
-    private double roughness = 0.5;
+    private String name;
+    private Vector3d color;
+    private double roughness;
     
-    public JRSShader() {}
+    public JRSShader() {
+        name = "";
+        color = new Vector3d(1, 1, 1);
+        roughness = 0.5;
+    }
     
     public String name() {
         return name;
@@ -18,10 +22,6 @@ public class JRSShader {
     
     public Vector3d color() {
         return color;
-    }
-    
-    public double specular() {
-        return specular;
     }
     
     public double roughness() {
@@ -36,18 +36,20 @@ public class JRSShader {
         this.color = color;
     }
     
-    public void setSpecular(double specular) {
-        this.specular = specular;
-    }
-    
     public void setRoughness(double roughness) {
         this.roughness = roughness;
     }
 
+    public FX3DShader toFX3D() {
+        FX3DShader shader = new FX3DShader();
+        return shader;
+    }
+
+    public void fromFX3D(FX3DShader shader) {}
+
     public void fromJSON(JSONObject jrs) {
         name = jrs.getString("name");
         color.fromJSONArray(jrs.getJSONArray("color"));
-        specular = jrs.getDouble("specular");
         roughness = jrs.getDouble("roughness");
     }
 
@@ -56,7 +58,6 @@ public class JRSShader {
 
         shader.put("name", name);
         shader.put("color", color.toJSONArray());
-        shader.put("specular", specular);
         shader.put("roughness", roughness);
 
         return shader;

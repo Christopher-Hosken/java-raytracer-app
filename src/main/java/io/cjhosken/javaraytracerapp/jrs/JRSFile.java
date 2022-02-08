@@ -1,5 +1,8 @@
 package io.cjhosken.javaraytracerapp.jrs;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 
 import org.json.JSONObject;
@@ -9,20 +12,23 @@ import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSWorld;
 
 public class JRSFile {
     private String version = "v10";
-    private String lastSaved = "";
-    private String comment = "The JRS (Java Raytracer Scene) file extension is specific to the Java Raytracer App. It's essentially just a fancy JSON file.";
+    private String lastSaved;
+    private String comment  = "The JRS (Java Raytracer Scene) file extension is specific to the Java Raytracer App. It's essentially just a fancy JSON file.";
 
-    private JRSSettings settings = new JRSSettings();
-    private JRSWorld world = new JRSWorld();
+    private JRSSettings settings;
+    private JRSWorld world;
 
     public JRSFile() {
         setDate();
+        settings = new JRSSettings();
+        world = new JRSWorld();
     }
     
     public JRSFile(JRSSettings settings, JRSWorld world) {
+
+        setDate();
         this.settings = settings;
         this.world = world;
-        setDate();
     }
 
     public String version() {
@@ -37,7 +43,7 @@ public class JRSFile {
         return comment;
     }
 
-    public JRSSettings settingss() {
+    public JRSSettings settings() {
         return settings;
     }
 
@@ -76,11 +82,9 @@ public class JRSFile {
         settings.fromJSON(jrs.getJSONObject("settings"));
         world.fromJSON(jrs.getJSONObject("world"));
     }
-    /*
-    public static JRSFile load(File file) {
-        JRSFile jrsFile;
-        JSONObject jrs = (JSONObject) parser.parse(new FileReader(file));
-        jrsFile.fromJSON(jrs);
+
+    public static JRSFile load(File file) throws IOException {
+        JRSFile jrsFile = JRSReader.read(file);
         System.out.println("Java Raytracer Scene File: " + file + "Opened");
         return jrsFile;
     }
@@ -88,6 +92,5 @@ public class JRSFile {
     public void save(File file) {
     
     }
-    
-    */
+
 }

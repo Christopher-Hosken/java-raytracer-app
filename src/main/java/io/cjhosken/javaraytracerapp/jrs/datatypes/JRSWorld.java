@@ -3,6 +3,10 @@ package io.cjhosken.javaraytracerapp.jrs.datatypes;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import io.cjhosken.javaraytracerapp.rendering.paver.data.PaverWorld;
+
+import javafx.scene.Group;
+
 public class JRSWorld {
     private JRSObject[] objects;
     private JRSCamera camera;
@@ -36,6 +40,7 @@ public class JRSWorld {
         PaverWorld world = new PaverWorld();
         world.setCamera(camera.toPaverCamera());
         world.objectsFromJRSArray(objects);
+        return world;
     }
     
     public void fromFX3D(Group world) {
