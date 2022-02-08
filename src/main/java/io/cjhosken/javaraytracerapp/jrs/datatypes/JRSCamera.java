@@ -6,15 +6,70 @@ import io.cjhosken.javaraytracerapp.core.Vector3d;
 import io.cjhosken.javaraytracerapp.jrs.JRSFile;
 
 public class JRSCamera {
-    private Vector3d location = new Vector3d();
-    private Vector3d direction = new Vector3d();
-    private double aperture = 2.0;
-    private double fov = 60.0;
-    private boolean dof = false;
-    private double focusDistance = 1;
+    private Vector3d location;
+    private Vector3d direction;
+    private double aperture;
+    private double fov;
+    private boolean dof;
+    private double focusDistance;
 
-    public JRSCamera() {}
-
+    public JRSCamera() {
+        location = new Vector3d();
+        rotation = new Vector3d();
+        aperture = 2.0;
+        fov = 60.0;
+        dof = false;
+        focusDistance = 1;
+    }
+    
+    public Vector3d location() {
+        return location;
+    }
+    
+    public Vector3d direction() {
+        return direction;
+    }
+    
+    public double aperture() {
+        return aperture;
+    }
+    
+    public double fov() {
+        return fov;
+    }
+    
+    public boolean dof() {
+        return dof;
+    }
+    
+    public double focusDistance() {
+        return focusDistance;
+    }
+    
+    public void setLocation(Vector3d location) {
+        this.location = location;
+    }
+   
+    public void setDirection(Vector3d direction) {
+        this.direction = direction;
+    }
+    
+    public void setAperture(double aperture) {
+        this.aperture = aperture;
+    }
+    
+    public void setFOV(double fov) {
+        this.fov = fov;
+    }
+    
+    public void setDOF(boolean dof) {
+        this.dof = dof;
+    }
+    
+    public void setFocusDistance(double focusDistance) {
+        this.focusDistance = focusDistance;
+    }
+    
     public static JRSCamera fromJRS(JRSFile file) {
         return file.world().camera();
     }
