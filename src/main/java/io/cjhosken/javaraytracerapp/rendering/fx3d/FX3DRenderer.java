@@ -208,4 +208,13 @@ public class FX3DRenderer {
       }
     }
   }
+  
+  public JRSWorld toJRS() {
+    JRSWorld world = new JRSWorld();
+    return world;
+  }
+  
+  
+  public void fromJRS(JRSWorld world) {
+  }
 }
