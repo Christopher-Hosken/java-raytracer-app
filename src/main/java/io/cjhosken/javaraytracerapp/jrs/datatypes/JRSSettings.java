@@ -9,11 +9,11 @@ public class JRSSettings {
     private int bounces;
 
     public JRSSettings() {
-        resolution = new int[] {680, 420};
+        resolution = new int[] { 680, 420 };
         samples = 16;
         bounces = 4;
     }
-    
+
     public int width() {
         return resolution[0];
     }
@@ -21,31 +21,31 @@ public class JRSSettings {
     public int height() {
         return resolution[1];
     }
-    
+
     public int samples() {
         return samples;
     }
-    
+
     public int bounces() {
         return bounces;
     }
-    
+
     public void setWidth(int width) {
         resolution[0] = width;
     }
-    
+
     public void setHeight(int height) {
         resolution[1] = height;
     }
-    
+
     public void setSamples(int samples) {
         this.samples = samples;
     }
-    
+
     public void setBounces(int bounces) {
         this.bounces = bounces;
     }
-       
+
     public JSONObject toJSON() {
         JSONObject settings = new JSONObject();
 

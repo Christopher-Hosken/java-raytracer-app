@@ -23,51 +23,51 @@ public class JRSCamera {
         dof = false;
         focusDistance = 1;
     }
-    
+
     public Vector3d location() {
         return location;
     }
-    
+
     public Vector3d direction() {
         return direction;
     }
-    
+
     public double aperture() {
         return aperture;
     }
-    
+
     public double fov() {
         return fov;
     }
-    
+
     public boolean dof() {
         return dof;
     }
-    
+
     public double focusDistance() {
         return focusDistance;
     }
-    
+
     public void setLocation(Vector3d location) {
         this.location = location;
     }
-   
+
     public void setDirection(Vector3d direction) {
         this.direction = direction;
     }
-    
+
     public void setAperture(double aperture) {
         this.aperture = aperture;
     }
-    
+
     public void setFOV(double fov) {
         this.fov = fov;
     }
-    
+
     public void setDOF(boolean dof) {
         this.dof = dof;
     }
-    
+
     public void setFocusDistance(double focusDistance) {
         this.focusDistance = focusDistance;
     }
@@ -89,6 +89,7 @@ public class JRSCamera {
         return camera;
     }
 
+    /* TODO */
     public static JRSCamera fromFX3D(Camera camera) {
         JRSCamera jrsCamera = new JRSCamera();
         jrsCamera.setLocation(new Vector3d(camera.getTranslateX(), camera.getTranslateY(), camera.getTranslateZ()));

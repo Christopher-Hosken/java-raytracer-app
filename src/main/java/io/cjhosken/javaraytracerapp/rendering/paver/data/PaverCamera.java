@@ -1,4 +1,5 @@
 package io.cjhosken.javaraytracerapp.rendering.paver.data;
+
 import java.awt.image.BufferedImage;
 
 import io.cjhosken.javaraytracerapp.core.Ray;
@@ -15,69 +16,75 @@ public class PaverCamera {
     private double focusDistance;
 
     private Vector3d u, v, hori, vert, llc;
-    
-    public PaverCamera() {}
+
+    public PaverCamera() {
+    }
 
     public Vector3d location() {
         return location;
     }
-    
+
     public Vector3d direction() {
         return direction;
     }
-    
+
     public double aperture() {
         return aperture;
     }
-    
+
     public double fov() {
         return fov;
     }
-    
+
     public boolean dof() {
         return dof;
     }
-    
+
     public double focusDistance() {
         return focusDistance;
     }
-    
+
     public void setLocation(Vector3d location) {
         this.location = location;
     }
-   
+
     public void setDirection(Vector3d direction) {
         this.direction = direction;
     }
-    
+
     public void setAperture(double aperture) {
         this.aperture = aperture;
     }
-    
+
     public void setFOV(double fov) {
         this.fov = fov;
     }
-    
+
     public void setDOF(boolean dof) {
         this.dof = dof;
     }
-    
+
     public void setFocusDistance(double focusDistance) {
         this.focusDistance = focusDistance;
     }
 
-    public Ray getRay(double s, double t) {
+    /* TODO */
+    private void solverPosition() {}
+
+    private Ray getRay(double s, double t) {
         Vector3d rd = Vector3d.mult(aperture / 2.0, Vector3d.randomInUnitDisc());
         if (!dof) {
             rd = new Vector3d(1, 1, 1);
         }
         Vector3d offset = Vector3d.add(Vector3d.mult(u, rd.x), Vector3d.mult(v, rd.y));
-        Vector3d target = Vector3d.sub(Vector3d.sub(Vector3d.add(Vector3d.add(llc, Vector3d.mult(s, hori)), Vector3d.mult(t, vert)), location), offset);
-        
+        Vector3d target = Vector3d.sub(
+                Vector3d.sub(Vector3d.add(Vector3d.add(llc, Vector3d.mult(s, hori)), Vector3d.mult(t, vert)), location),
+                offset);
+
         return new Ray(Vector3d.add(location, offset), target);
     }
 
-    public Vector3d solveRay(PaverWorld world, Ray ray, int d, int b) {
+    private Vector3d solveRay(PaverWorld world, Ray ray, int d, int b) {
         PaverObject obj = world.hit(ray);
 
         if (obj != null) {
@@ -86,12 +93,11 @@ public class PaverCamera {
 
         double u = ray.direction().unitVector().y;
         return Vector3d.add(
-            Vector3d.mult(new Vector3d(0.3, 0.3, 0.5), (1 - u)),
-            Vector3d.mult(new Vector3d(0.25, 0.5, 1), u)
-        );
+                Vector3d.mult(new Vector3d(0.3, 0.3, 0.5), (1 - u)),
+                Vector3d.mult(new Vector3d(0.25, 0.5, 1), u));
     }
 
-    public int convertRGB(Vector3d color, int samples) {
+    private int convertRGB(Vector3d color, int samples) {
         double scale = 1.0 / samples;
         color = Vector3d.mult(color, scale);
         color = color.sqrt();

@@ -4,19 +4,19 @@ public class Face {
     private Tri[] tris;
     private Vector3d normal;
 
-
-    public Face() {}
+    public Face() {
+    }
 
     public Face(String id, Vector3d a, Vector3d b, Vector3d c) {
         Tri A = new Tri(a, b, c);
-        tris = new Tri[] {A};
+        tris = new Tri[] { A };
     }
 
     public Face(Vector3d a, Vector3d b, Vector3d c, Vector3d d) {
         Tri A = new Tri(a, b, c);
         Tri B = new Tri(a, c, d);
 
-        tris = new Tri[] {B, A};
+        tris = new Tri[] { B, A };
     }
 
     public Tri[] tris() {
@@ -34,7 +34,8 @@ public class Face {
     public double intersect(Ray ray) {
         boolean hit = false;
         double t = Double.POSITIVE_INFINITY;
-        if (tris == null || tris.length == 0) return -1.0;
+        if (tris == null || tris.length == 0)
+            return -1.0;
 
         for (Tri Tri : tris) {
             double t0 = Tri.intersect(ray);

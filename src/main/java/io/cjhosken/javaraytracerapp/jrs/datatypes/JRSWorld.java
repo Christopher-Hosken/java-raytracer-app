@@ -10,7 +10,7 @@ import javafx.scene.Group;
 public class JRSWorld {
     private JRSObject[] objects;
     private JRSCamera camera;
-    
+
     public JRSWorld() {
         objects = new JRSObject[0];
         camera = new JRSCamera();
@@ -23,32 +23,34 @@ public class JRSWorld {
     public JRSObject[] objects() {
         return objects;
     }
-    
+
     public void setCamera(JRSCamera camera) {
         this.camera = camera;
     }
-    
+
     public void setObjects(JRSObject[] objects) {
         this.objects = objects;
     }
-    
+
     public Group toFX3D() {
         return new Group();
     }
-    
+
     public PaverWorld toPaverWorld() {
         PaverWorld world = new PaverWorld();
         world.setCamera(camera.toPaverCamera());
         world.objectsFromJRSArray(objects);
         return world;
     }
-    
+
+    /* TODO */
     public void fromFX3D(Group world) {
     }
-    
+
+    /* TODO */
     public void fromPaverWorld(PaverWorld world) {
     }
-    
+
     public JSONObject toJSON() {
         JSONObject world = new JSONObject();
         world.put("camera", camera.toJSON());

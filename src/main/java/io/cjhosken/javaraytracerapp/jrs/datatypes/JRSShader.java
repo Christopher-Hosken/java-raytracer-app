@@ -9,33 +9,33 @@ public class JRSShader {
     private String name;
     private Vector3d color;
     private double roughness;
-    
+
     public JRSShader() {
         name = "";
         color = new Vector3d(1, 1, 1);
         roughness = 0.5;
     }
-    
+
     public String name() {
         return name;
     }
-    
+
     public Vector3d color() {
         return color;
     }
-    
+
     public double roughness() {
         return roughness;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public void setColor(Vector3d color) {
         this.color = color;
     }
-    
+
     public void setRoughness(double roughness) {
         this.roughness = roughness;
     }

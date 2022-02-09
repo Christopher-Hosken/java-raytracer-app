@@ -50,6 +50,7 @@ public class JRSObject {
         return mesh;
     }
 
+    /* TODO */
     public TriangleMesh triangleMesh() {
         TriangleMesh triMesh = new TriangleMesh();
 
@@ -84,8 +85,8 @@ public class JRSObject {
         this.mesh = mesh;
     }
 
+    /* TODO */
     public void fromTriangleMesh(TriangleMesh mesh) {
-        /* DOTO */
     }
 
     public void setShader(JRSShader shader) {

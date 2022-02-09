@@ -23,7 +23,6 @@ public class FX3DShader {
     return color;
   }
 
-
   public double roughness() {
     return roughness;
   }

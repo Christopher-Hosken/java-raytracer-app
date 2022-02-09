@@ -19,7 +19,7 @@ public class FX3DObject extends Group {
   public FX3DObject() {
     super();
   }
-  
+
   public FX3DObject(Group group) {
     super(group);
   }
@@ -35,7 +35,7 @@ public class FX3DObject extends Group {
   public JRSObjectType type() {
     return type;
   }
-  
+
   public boolean isSelected() {
     return isSelected;
   }
@@ -67,11 +67,12 @@ public class FX3DObject extends Group {
   public void setShader(FX3DShader shader) {
     this.shader = shader;
   }
-  
+
   public void setMesh(TriangleMesh mesh) {
     this.mesh = mesh;
   }
-  
+
+  /* TODO */
   public JRSObject toJRS() {
     JRSObject obj = new JRSObject();
     obj.setName(name);
@@ -79,16 +80,17 @@ public class FX3DObject extends Group {
     obj.setLocation(new Vector3d(getTranslateX(), getTranslateY(), getTranslateZ()));
     obj.setRotation(new Vector3d());
     obj.setScale(new Vector3d(getScaleX(), getScaleY(), getScaleZ()));
-    
+
     if (type == JRSObjectType.OBJ) {
       obj.fromTriangleMesh(mesh);
     }
-    
+
     obj.setShader(JRSShader.fromFX3D(shader));
-    
+
     return obj;
   }
-  
+
+  /* TODO */
   public static FX3DObject fromJRS(JRSObject jrs) {
     FX3DObject fxObject = new FX3DObject();
     fxObject.setName(jrs.name());
@@ -102,11 +104,11 @@ public class FX3DObject extends Group {
     fxObject.setScaleX(1);
     fxObject.setScaleY(1);
     fxObject.setScaleZ(1);
-    
+
     if (fxObject.type() == JRSObjectType.OBJ) {
       fxObject.setMesh(jrs.triangleMesh());
     }
-    
+
     fxObject.setShader(jrs.shader().toFX3D());
 
     return fxObject;

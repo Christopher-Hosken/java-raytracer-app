@@ -13,7 +13,8 @@ public class PaverObject {
   protected double tmpT;
   protected PaverShader shader = new PaverShader();
 
-  public PaverObject() {}
+  public PaverObject() {
+  }
 
   public String name() {
     return name;

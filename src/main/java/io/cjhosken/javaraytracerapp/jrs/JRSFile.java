@@ -12,7 +12,7 @@ import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSWorld;
 public class JRSFile {
     private String version = "v10";
     private String lastSaved;
-    private String comment  = "The JRS (Java Raytracer Scene) file extension is specific to the Java Raytracer App. It's essentially just a fancy JSON file.";
+    private String comment = "The JRS (Java Raytracer Scene) file extension is specific to the Java Raytracer App. It's essentially just a fancy JSON file.";
 
     private JRSSettings settings;
     private JRSWorld world;
@@ -22,7 +22,7 @@ public class JRSFile {
         settings = new JRSSettings();
         world = new JRSWorld();
     }
-    
+
     public JRSFile(JRSSettings settings, JRSWorld world) {
 
         setDate();
@@ -110,8 +110,9 @@ public class JRSFile {
         System.out.println("Java Raytracer Scene File: " + file + "Opened");
         return jrsFile;
     }
-    
+
+    /* TODO */
     public void save(File file) {
-        
+
     }
 }

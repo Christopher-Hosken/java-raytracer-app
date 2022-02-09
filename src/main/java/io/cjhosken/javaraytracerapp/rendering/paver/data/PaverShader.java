@@ -8,7 +8,8 @@ public class PaverShader {
     protected Vector3d color;
     protected double roughness;
 
-    public PaverShader() {}
+    public PaverShader() {
+    }
 
     public String name() {
         return name;

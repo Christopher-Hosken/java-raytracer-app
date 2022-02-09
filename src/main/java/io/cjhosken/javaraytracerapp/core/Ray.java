@@ -5,7 +5,7 @@ public class Ray {
     private Vector3d direction;
 
     public Ray() {
-        origin=direction=new Vector3d();
+        origin = direction = new Vector3d();
     }
 
     public Ray(Vector3d origin, Vector3d direction) {

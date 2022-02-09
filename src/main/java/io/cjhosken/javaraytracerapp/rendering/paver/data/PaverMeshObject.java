@@ -11,6 +11,14 @@ public class PaverMeshObject extends PaverObject {
     super();
   }
 
+  public Face[] mesh() {
+    return mesh;
+  }
+
+  public void setMesh(Face[] mesh) {
+    this.mesh = mesh;
+  }
+
   public double intersect(Ray ray) {
     Tri tc = new Tri();
         boolean hit = false;
