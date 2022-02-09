@@ -1,7 +1,6 @@
 package io.cjhosken.javaraytracerapp.core;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javafx.scene.paint.Color;
 
@@ -160,10 +159,8 @@ public class Vector3d {
         );
     }
 
-    public void fromJSONArray(JSONArray jrsa) {
-        x = jrsa.getDouble(0);
-        y = jrsa.getDouble(1);
-        z = jrsa.getDouble(2);
+    public static Vector3d fromJSONArray(JSONArray jrsa) {
+        return new Vector3d(jrsa.getDouble(0), jrsa.getDouble(1), jrsa.getDouble(2));
     }
 
     public JSONArray toJSONArray() {

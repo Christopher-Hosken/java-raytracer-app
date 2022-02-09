@@ -3,6 +3,7 @@ package io.cjhosken.javaraytracerapp.rendering.fx3d;
 import io.cjhosken.javaraytracerapp.core.Vector3d;
 import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSObject;
 import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSObjectType;
+import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSShader;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.shape.Shape3D;
@@ -14,6 +15,10 @@ public class FX3DObject extends Group {
   private boolean isSelected = false;
   private FX3DShader shader;
   private TriangleMesh mesh;
+
+  public FX3DObject() {
+    super();
+  }
   
   public FX3DObject(Group group) {
     super(group);
@@ -41,6 +46,10 @@ public class FX3DObject extends Group {
 
   public TriangleMesh mesh() {
     return mesh;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public void setType(JRSObjectType type) {
@@ -75,28 +84,31 @@ public class FX3DObject extends Group {
       obj.fromTriangleMesh(mesh);
     }
     
-    obj.shader().fromFX3D(shader);
+    obj.setShader(JRSShader.fromFX3D(shader));
     
     return obj;
   }
   
-  public void fromJRS(JRSObject jrs) {
-    name = jrs.name();
-    type = jrs.type();
-    setTranslateX(jrs.location().x);
-    setTranslateY(jrs.location().y);
-    setTranslateZ(jrs.location().z);
-    setRotate(0);
-    setRotate(0);
-    setRotate(0);
-    setScaleX(1);
-    setScaleY(1);
-    setScaleZ(1);
+  public static FX3DObject fromJRS(JRSObject jrs) {
+    FX3DObject fxObject = new FX3DObject();
+    fxObject.setName(jrs.name());
+    fxObject.setType(jrs.type());
+    fxObject.setTranslateX(jrs.location().x);
+    fxObject.setTranslateY(jrs.location().y);
+    fxObject.setTranslateZ(jrs.location().z);
+    fxObject.setRotate(0);
+    fxObject.setRotate(0);
+    fxObject.setRotate(0);
+    fxObject.setScaleX(1);
+    fxObject.setScaleY(1);
+    fxObject.setScaleZ(1);
     
-    if (type == JRSObjectType.OBJ) {
-      mesh = jrs.triangleMesh();
+    if (fxObject.type() == JRSObjectType.OBJ) {
+      fxObject.setMesh(jrs.triangleMesh());
     }
     
-    shader = jrs.shader().toFX3D();
+    fxObject.setShader(jrs.shader().toFX3D());
+
+    return fxObject;
   }
 }

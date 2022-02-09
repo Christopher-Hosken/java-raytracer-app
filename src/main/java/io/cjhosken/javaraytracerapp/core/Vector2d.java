@@ -1,7 +1,6 @@
 package io.cjhosken.javaraytracerapp.core;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class Vector2d {
     public double x,y;

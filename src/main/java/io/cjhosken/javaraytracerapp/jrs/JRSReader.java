@@ -8,10 +8,7 @@ import org.json.JSONObject;
 
 public class JRSReader {
     public static JRSFile read(File file) throws IOException {
-        JRSFile jrsFile = new JRSFile();
-
         JSONObject jrsData = new JSONObject(new String(Files.readAllBytes(file.toPath())));
-        jrsFile.fromJSON(jrsData);
-        return jrsFile;
+        return JRSFile.fromJSON(jrsData);
     }
 }

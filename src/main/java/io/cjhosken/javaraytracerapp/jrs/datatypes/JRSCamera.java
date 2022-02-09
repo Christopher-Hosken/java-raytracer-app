@@ -3,8 +3,9 @@ package io.cjhosken.javaraytracerapp.jrs.datatypes;
 import org.json.JSONObject;
 
 import io.cjhosken.javaraytracerapp.core.Vector3d;
-import io.cjhosken.javaraytracerapp.jrs.JRSFile;
 import io.cjhosken.javaraytracerapp.rendering.paver.data.PaverCamera;
+import javafx.scene.Camera;
+import javafx.scene.PerspectiveCamera;
 
 public class JRSCamera {
     private Vector3d location;
@@ -70,10 +71,6 @@ public class JRSCamera {
     public void setFocusDistance(double focusDistance) {
         this.focusDistance = focusDistance;
     }
-    
-    public static JRSCamera fromJRS(JRSFile file) {
-        return file.world().camera();
-    }
 
     public PaverCamera toPaverCamera() {
         PaverCamera camera = new PaverCamera();
@@ -84,6 +81,20 @@ public class JRSCamera {
         camera.setDOF(dof);
         camera.setFocusDistance(focusDistance);
         return camera;
+    }
+
+    /* TODO */
+    public Camera toFX3D() {
+        PerspectiveCamera camera = new PerspectiveCamera(true);
+        return camera;
+    }
+
+    public static JRSCamera fromFX3D(Camera camera) {
+        JRSCamera jrsCamera = new JRSCamera();
+        jrsCamera.setLocation(new Vector3d(camera.getTranslateX(), camera.getTranslateY(), camera.getTranslateZ()));
+        jrsCamera.setDirection(new Vector3d());
+
+        return jrsCamera;
     }
 
     public JSONObject toJSON() {
@@ -98,13 +109,16 @@ public class JRSCamera {
         return camera;
     }
 
-    public void fromJSON(JSONObject jrs) {
-        aperture = jrs.getDouble("aperture");
-        fov = jrs.getDouble("fov");
-        dof = jrs.getBoolean("dof");
-        focusDistance = jrs.getDouble("focusDistance");
+    public static JRSCamera fromJSON(JSONObject jrs) {
+        JRSCamera jrsCamera = new JRSCamera();
+        jrsCamera.setAperture(jrs.getDouble("aperture"));
+        jrsCamera.setFOV(jrs.getDouble("fov"));
+        jrsCamera.setDOF(jrs.getBoolean("dof"));
+        jrsCamera.setFocusDistance(jrs.getDouble("focusDistance"));
 
-        location.fromJSONArray(jrs.getJSONArray("location"));
-        direction.fromJSONArray(jrs.getJSONArray("direction"));
+        jrsCamera.setLocation(Vector3d.fromJSONArray(jrs.getJSONArray("location")));
+        jrsCamera.setDirection(Vector3d.fromJSONArray(jrs.getJSONArray("direction")));
+
+        return jrsCamera;
     }
 }

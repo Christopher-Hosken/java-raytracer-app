@@ -1,5 +1,6 @@
 package io.cjhosken.javaraytracerapp.rendering.paver.data;
 
+import io.cjhosken.javaraytracerapp.core.Ray;
 import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSObject;
 import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSWorld;
 
@@ -38,5 +39,22 @@ public class PaverWorld {
     for (int idx = 0; idx < objects.length; idx++) {
       objects[idx] = PaverObject.fromJRS(jrsObjects[idx]);
     }
+  }
+
+  public PaverObject hit(Ray ray) {
+    PaverObject hitObj = null;
+    double t = Double.POSITIVE_INFINITY;
+
+    if (objects != null && objects.length > 0) {
+      for (PaverObject obj : objects) {
+        double t0 = obj.intersect(ray);
+        if (t0 > 0.0000001 && t0 < t) {
+          hitObj = obj;
+          t = t0;
+        }
+      }
+    }
+
+    return hitObj;
   }
 }

@@ -50,6 +50,22 @@ public class JRSMesh {
         this.indices = indices;
     }
 
+    public void setVertexAt(int idx, Vector3d vec) {
+        vertices[idx] = vec;
+    }
+
+    public void setTexCoordAt(int idx, Vector2d tex) {
+        texCoords[idx] = tex;
+    }
+
+    public void setNormalAt(int idx, Vector3d nor) {
+        normals[idx] = nor;
+    }
+
+    public void setIndexAt(int idx, int id) {
+        indices[idx] = id;
+    }
+
     public JSONObject toJSON() {
         JSONObject mesh = new JSONObject();
 
@@ -61,41 +77,45 @@ public class JRSMesh {
         return mesh;
     }
 
-    public void fromJSON(JSONObject jrs) {
-        vertices = new Vector3d[jrs.getJSONArray("vertices").length() / 3]; 
+    public static JRSMesh fromJSON(JSONObject jrs) {
+        JRSMesh mesh = new JRSMesh();
+
+        mesh.setVertices(new Vector3d[jrs.getJSONArray("vertices").length() / 3]); 
         for (int vdx = 0; vdx < jrs.getJSONArray("vertices").length(); vdx += 3) {
-            vertices[vdx] = new Vector3d(
+            mesh.setVertexAt(vdx, new Vector3d(
                 jrs.getJSONArray("vertices").getDouble(vdx), 
                 jrs.getJSONArray("vertices").getDouble(vdx + 1),
                 jrs.getJSONArray("vertices").getDouble(vdx + 2)
-            );
+            ));
         }
 
-        texCoords = new Vector2d[jrs.getJSONArray("texCoords").length() / 2]; 
+        mesh.setTexCoords(new Vector2d[jrs.getJSONArray("texCoords").length() / 2]); 
 
         for (int tdx = 0; tdx < jrs.getJSONArray("texCoords").length(); tdx += 2) {
-            texCoords[tdx] = new Vector2d(
+            mesh.setTexCoordAt(tdx, new Vector2d(
                 jrs.getJSONArray("texCoords").getDouble(tdx), 
                 jrs.getJSONArray("texCoords").getDouble(tdx + 1)
-            );
+            ));
         }
 
-        normals = new Vector3d[jrs.getJSONArray("normals").length() / 3]; 
+        mesh.setNormals(new Vector3d[jrs.getJSONArray("normals").length() / 3]); 
 
         for (int ndx = 0; ndx < jrs.getJSONArray("normals").length(); ndx += 3) {
-            normals[ndx] = new Vector3d(
+            mesh.setNormalAt(ndx, new Vector3d(
                 jrs.getJSONArray("normals").getDouble(ndx), 
                 jrs.getJSONArray("normals").getDouble(ndx + 1),
                 jrs.getJSONArray("normals").getDouble(ndx + 2)
-            );
+            ));
         }
 
-        indices = new int[jrs.getJSONArray("indices").length()]; 
+        mesh.setIndices(new int[jrs.getJSONArray("indices").length()]); 
 
         for (int idx = 0; idx < jrs.getJSONArray("indices").length(); idx += 3) {
-            indices[idx] = jrs.getJSONArray("indices").getInt(idx) / 2;
-            indices[idx + 1] = jrs.getJSONArray("indices").getInt((idx + 1)) / 2;
-            indices[idx + 2] = jrs.getJSONArray("indices").getInt((idx + 2)) / 3;
+            mesh.setIndexAt(idx, jrs.getJSONArray("indices").getInt(idx) / 2);
+            mesh.setIndexAt(idx + 1, jrs.getJSONArray("indices").getInt((idx + 1)) / 2);
+            mesh.setIndexAt(idx + 2, jrs.getJSONArray("indices").getInt((idx + 2)) / 3);
         }
+
+        return mesh;
     }
 }

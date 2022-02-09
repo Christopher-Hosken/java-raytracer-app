@@ -49,7 +49,6 @@ public class JRSWorld {
     public void fromPaverWorld(PaverWorld world) {
     }
     
-    
     public JSONObject toJSON() {
         JSONObject world = new JSONObject();
         world.put("camera", camera.toJSON());
@@ -58,13 +57,18 @@ public class JRSWorld {
         return world;
     }
 
-    public void fromJSON(JSONObject jrs) {
-        camera.fromJSON(jrs.getJSONObject("camera"));
+    public static JRSWorld fromJSON(JSONObject jrs) {
+        JRSWorld world = new JRSWorld();
+        world.setCamera(JRSCamera.fromJSON(jrs.getJSONObject("camera")));
         JSONArray objectsArray = jrs.getJSONArray("objects");
 
-        objects = new JRSObject[objectsArray.length()];
+        JRSObject[] objects = new JRSObject[objectsArray.length()];
         for (int idx = 0; idx < objectsArray.length(); idx++) {
-            objects[idx].fromJSON(objectsArray.getJSONObject(idx));
+            objects[idx] = JRSObject.fromJSON(objectsArray.getJSONObject(idx));
         }
+
+        world.setObjects(objects);
+
+        return world;
     }
 }

@@ -1,6 +1,9 @@
 package io.cjhosken.javaraytracerapp.rendering.fx3d;
 
 import io.cjhosken.javaraytracerapp.core.Vector2d;
+import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSCamera;
+import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSObject;
+import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSWorld;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Camera;
@@ -69,11 +72,9 @@ public class FX3DRenderer {
     return scene.getCamera();
   }
 
-  /*
-    public Vector3d renderCameraRotation() {
-      use sin() and cos() to get the rotation vector of the scene.
-    }
-  */
+  public void setRenderCamera(Camera cam) {
+    renderCamera = cam;
+  }
   
   public void addToWorld(FX3DObject obj) {
     objects.getChildren().add(obj);
@@ -200,21 +201,39 @@ public class FX3DRenderer {
     }
   }
   
-  private void deleteSelected() {
+  /*private void deleteSelected() {
     for (int idx = 0; idx < objects.getChildren().size(); idx++) {
       FX3DObject obj = (FX3DObject) objects.getChildren().get(idx);
       if (obj.isSelected()) {
         objects.getChildren().remove(obj);
       }
     }
-  }
-  
+  }*/
+
   public JRSWorld toJRS() {
     JRSWorld world = new JRSWorld();
+    JRSObject[] jrsObjects = new JRSObject[objects.getChildren().size()];
+    
+
+    for (int idx = 0; idx < objects.getChildren().size(); idx++) {
+      FX3DObject obj = (FX3DObject) objects.getChildren().get(idx);
+      jrsObjects[idx] = obj.toJRS();
+    }
+
+    world.setObjects(jrsObjects);
+    world.setCamera(JRSCamera.fromFX3D(renderCamera));
+
     return world;
   }
-  
-  
-  public void fromJRS(JRSWorld world) {
+
+  public static FX3DRenderer fromJRS(JRSWorld world) {
+    FX3DRenderer renderer = new FX3DRenderer();
+    renderer.setRenderCamera(world.camera().toFX3D());
+
+    for (JRSObject obj : world.objects()) {
+        renderer.addToWorld(obj.toFX3D());
+    }
+
+    return renderer;
   }
 }

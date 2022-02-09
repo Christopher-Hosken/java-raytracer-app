@@ -56,9 +56,14 @@ public class JRSSettings {
         return settings;
     }
 
-    public void fromJSON(JSONObject jrs) {
-        resolution = new int[] {jrs.getJSONArray("resolution").getInt(0), jrs.getJSONArray("resolution").getInt(1)};
-        samples = jrs.getInt("samples");
-        bounces = jrs.getInt("bounces");
+    public static JRSSettings fromJSON(JSONObject jrs) {
+        JRSSettings jrsSettings = new JRSSettings();
+        jrsSettings.setWidth(jrs.getJSONArray("resolution").getInt(0));
+        jrsSettings.setHeight(jrs.getJSONArray("resolution").getInt(1));
+
+        jrsSettings.setSamples(jrs.getInt("samples"));
+        jrsSettings.setBounces(jrs.getInt("bounces"));
+
+        return jrsSettings;
     }
 }

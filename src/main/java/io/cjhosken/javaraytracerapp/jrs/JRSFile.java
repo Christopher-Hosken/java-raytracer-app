@@ -1,7 +1,6 @@
 package io.cjhosken.javaraytracerapp.jrs;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -51,6 +50,26 @@ public class JRSFile {
         return world;
     }
 
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public void setLastSaved(String lastSaved) {
+        this.lastSaved = lastSaved;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void setSettings(JRSSettings settings) {
+        this.settings = settings;
+    }
+
+    public void setWorld(JRSWorld world) {
+        this.world = world;
+    }
+
     private void setDate() {
         LocalDate currentDate = LocalDate.now();
         this.lastSaved = currentDate.getDayOfMonth() + "-" + currentDate.getMonthValue() + "-" + currentDate.getYear();
@@ -73,14 +92,17 @@ public class JRSFile {
         return jrs;
     }
 
-    public void fromJSON(JSONObject jrs) {
+    public static JRSFile fromJSON(JSONObject jrs) {
+        JRSFile jrsFile = new JRSFile();
         JSONObject info = jrs.getJSONObject("info");
-        version = info.getString("version");
-        lastSaved = info.getString("lastSaved");
-        comment = info.getString("comment");
+        jrsFile.setVersion(info.getString("version"));
+        jrsFile.setLastSaved(info.getString("lastSaved"));
+        jrsFile.setComment(info.getString("comment"));
 
-        settings.fromJSON(jrs.getJSONObject("settings"));
-        world.fromJSON(jrs.getJSONObject("world"));
+        jrsFile.setSettings(JRSSettings.fromJSON(jrs.getJSONObject("settings")));
+        jrsFile.setWorld(JRSWorld.fromJSON(jrs.getJSONObject("world")));
+
+        return jrsFile;
     }
 
     public static JRSFile load(File file) throws IOException {
@@ -90,7 +112,6 @@ public class JRSFile {
     }
     
     public void save(File file) {
-    
+        
     }
-
 }

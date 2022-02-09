@@ -3,7 +3,6 @@ package io.cjhosken.javaraytracerapp.rendering.paver.data;
 import io.cjhosken.javaraytracerapp.core.Ray;
 import io.cjhosken.javaraytracerapp.core.Vector3d;
 import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSObject;
-import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSObjectType;
 
 public class PaverObject {
   protected String name;

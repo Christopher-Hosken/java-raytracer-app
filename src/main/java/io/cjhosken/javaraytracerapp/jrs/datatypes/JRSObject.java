@@ -3,7 +3,7 @@ package io.cjhosken.javaraytracerapp.jrs.datatypes;
 import org.json.JSONObject;
 
 import io.cjhosken.javaraytracerapp.core.Vector3d;
-import io.cjhosken.javaraytracerapp.rendering.fx3d.FX3DShader;
+import io.cjhosken.javaraytracerapp.rendering.fx3d.FX3DObject;
 import javafx.scene.shape.TriangleMesh;
 
 public class JRSObject {
@@ -92,6 +92,14 @@ public class JRSObject {
         this.shader = shader;
     }
 
+    public static JRSObject fromFX3D(FX3DObject object) {
+        return object.toJRS();
+    }
+
+    public FX3DObject toFX3D() {
+        return FX3DObject.fromJRS(this);
+    }
+
     public JSONObject toJSON() {
         JSONObject object = new JSONObject();
         object.put("name", name);
@@ -109,17 +117,20 @@ public class JRSObject {
         return object;
     }
 
-    public void fromJSON(JSONObject jrs) {
-        name = jrs.getString("name");
-        type = jrs.getEnum(JRSObjectType.class, "type");
-        location.fromJSONArray(jrs.getJSONArray("location"));
-        rotation.fromJSONArray(jrs.getJSONArray("rotation"));
-        scale.fromJSONArray(jrs.getJSONArray("scale"));
+    public static JRSObject fromJSON(JSONObject jrs) {
+        JRSObject jrsObject = new JRSObject();
+        jrsObject.setName(jrs.getString("name"));
+        jrsObject.setType(jrs.getEnum(JRSObjectType.class, "type"));
+        jrsObject.setLocation(Vector3d.fromJSONArray(jrs.getJSONArray("location")));
+        jrsObject.setRotation(Vector3d.fromJSONArray(jrs.getJSONArray("rotation")));
+        jrsObject.setScale(Vector3d.fromJSONArray(jrs.getJSONArray("scale")));
 
-        if (type == JRSObjectType.OBJ) {
-            mesh.fromJSON(jrs.getJSONObject("mesh"));
+        if (jrsObject.type() == JRSObjectType.OBJ) {
+            jrsObject.setMesh(JRSMesh.fromJSON(jrs.getJSONObject("mesh")));
         }
 
-        shader.fromJSON(jrs.getJSONObject("shader"));
+        jrsObject.setShader(JRSShader.fromJSON(jrs.getJSONObject("shader")));
+
+        return jrsObject;
     }
 }

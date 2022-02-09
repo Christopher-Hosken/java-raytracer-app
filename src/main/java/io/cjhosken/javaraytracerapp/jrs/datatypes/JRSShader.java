@@ -41,16 +41,19 @@ public class JRSShader {
     }
 
     public FX3DShader toFX3D() {
-        FX3DShader shader = new FX3DShader();
-        return shader;
+        return FX3DShader.fromJRS(this);
     }
 
-    public void fromFX3D(FX3DShader shader) {}
+    public static JRSShader fromFX3D(FX3DShader shader) {
+        return shader.toJRS();
+    }
 
-    public void fromJSON(JSONObject jrs) {
-        name = jrs.getString("name");
-        color.fromJSONArray(jrs.getJSONArray("color"));
-        roughness = jrs.getDouble("roughness");
+    public static JRSShader fromJSON(JSONObject jrs) {
+        JRSShader shader = new JRSShader();
+        shader.setName(jrs.getString("name"));
+        shader.setColor(Vector3d.fromJSONArray(jrs.getJSONArray("color")));
+        shader.setRoughness(jrs.getDouble("roughness"));
+        return shader;
     }
 
     public JSONObject toJSON() {

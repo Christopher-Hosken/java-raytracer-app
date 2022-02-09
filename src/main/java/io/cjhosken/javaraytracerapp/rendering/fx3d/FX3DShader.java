@@ -36,7 +36,6 @@ public class FX3DShader {
     this.color = color;
   }
 
-
   public void setRoughness(double roughness) {
     this.roughness = roughness;
   }
@@ -56,9 +55,11 @@ public class FX3DShader {
     return shader;
   }
 
-  public void fromJRS(JRSShader shader) {
-    name = shader.name();
-    color = shader.color();
-    roughness = shader.roughness();
+  public static FX3DShader fromJRS(JRSShader shader) {
+    FX3DShader fxShader = new FX3DShader();
+    fxShader.setName(shader.name());
+    fxShader.setColor(shader.color());
+    fxShader.setRoughness(shader.roughness());
+    return fxShader;
   }
 }
