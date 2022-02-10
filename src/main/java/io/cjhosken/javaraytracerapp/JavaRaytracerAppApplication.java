@@ -1,11 +1,34 @@
 package io.cjhosken.javaraytracerapp;
 
-import io.cjhosken.javaraytracerapp.jrs.JRSFile;
+import java.io.IOException;
 
-public class JavaRaytracerAppApplication {
+import io.cjhosken.javaraytracerapp.ui.JRSRoot;
+import io.cjhosken.javaraytracerapp.ui.JRSUI;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class JavaRaytracerAppApplication extends Application {
     public static void main(String args[]) {
-        JRSFile file = new JRSFile();
+        launch(args);
+    }
 
-        file.toJSON();
+    @Override
+    public void start(Stage stage) throws IOException {
+        JRSRoot root = new JRSRoot();
+
+        Scene scene = new Scene(root, root.getWidth(), root.getHeight());
+
+
+        stage.setMinWidth(JRSUI.MINWIDTH);
+        stage.setMinHeight(JRSUI.MINHEIGHT);
+
+        stage.setTitle("Java Raytracer");
+        stage.setScene(scene);
+        stage.show();
+
+        stage.widthProperty().addListener((obs, oldVal, newVal) -> {
+            System.out.println(root.getWidth());
+        });
     }
 }

@@ -69,7 +69,7 @@ public class PaverCamera {
     }
 
     /* TODO */
-    private void solverPosition() {}
+    //private void solvePosition() {}
 
     private Ray getRay(double s, double t) {
         Vector3d rd = Vector3d.mult(aperture / 2.0, Vector3d.randomInUnitDisc());
