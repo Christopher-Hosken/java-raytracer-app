@@ -15,7 +15,7 @@ public class PaverCamera {
     private boolean dof;
     private double focusDistance;
 
-    private Vector3d u, v, hori, vert, llc;
+    private Vector3d u, v, w, hori, vert, llc;
 
     public PaverCamera() {
     }
@@ -68,8 +68,19 @@ public class PaverCamera {
         this.focusDistance = focusDistance;
     }
 
-    /* TODO */
-    //private void solvePosition() {}
+    private void solvePosition(double ratio) {
+        double h = Math.tan(Math.toRadians(fov) / 2.0);
+        double vh = 2 * h;
+        double vw = ratio * vh;
+
+        w = Vector3d.sub(location, direction).unitVector();
+        u = Vector3d.cross(new Vector3d(0, 1, 0), w).unitVector();
+        v = Vector3d.cross(w, u);
+
+        hori = Vector3d.mult((focusDistance * vw), u);
+        vert = Vector3d.mult((focusDistance * vh), v);
+        llc = Vector3d.sub(Vector3d.sub(Vector3d.sub(location, Vector3d.div(hori, 2)), Vector3d.div(vert, 2)), Vector3d.mult(focusDistance, w));
+    }
 
     private Ray getRay(double s, double t) {
         Vector3d rd = Vector3d.mult(aperture / 2.0, Vector3d.randomInUnitDisc());
@@ -123,6 +134,8 @@ public class PaverCamera {
     }
 
     public BufferedImage render(BufferedImage image, PaverWorld world, int samples, int bounces) {
+        solvePosition(((double) image.getWidth()) / image.getHeight());
+
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
                 Vector3d color = new Vector3d();

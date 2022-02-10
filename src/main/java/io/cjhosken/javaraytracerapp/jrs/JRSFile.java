@@ -2,6 +2,7 @@ package io.cjhosken.javaraytracerapp.jrs;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDate;
 
 import org.json.JSONObject;
@@ -111,8 +112,11 @@ public class JRSFile {
         return jrsFile;
     }
 
-    /* TODO */
-    public void save(File file) {
+    public void save(File file) throws IOException {
+        JSONObject json = toJSON();
 
+        byte[] strToBytes = json.toString().getBytes();
+
+        Files.write(file.toPath(), strToBytes);
     }
 }

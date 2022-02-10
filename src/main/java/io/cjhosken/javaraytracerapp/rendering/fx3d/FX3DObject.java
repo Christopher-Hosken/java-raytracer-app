@@ -101,9 +101,9 @@ public class FX3DObject extends Group {
     fxObject.setRotate(0);
     fxObject.setRotate(0);
     fxObject.setRotate(0);
-    fxObject.setScaleX(1);
-    fxObject.setScaleY(1);
-    fxObject.setScaleZ(1);
+    fxObject.setScaleX(jrs.scale().x);
+    fxObject.setScaleY(jrs.scale().y);
+    fxObject.setScaleZ(jrs.scale().z);
 
     if (fxObject.type() == JRSObjectType.OBJ) {
       fxObject.setMesh(jrs.triangleMesh());

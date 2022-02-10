@@ -4,6 +4,8 @@ import org.json.JSONObject;
 
 import io.cjhosken.javaraytracerapp.core.Vector2d;
 import io.cjhosken.javaraytracerapp.core.Vector3d;
+import javafx.scene.shape.TriangleMesh;
+import javafx.scene.shape.VertexFormat;
 
 public class JRSMesh {
     private Vector3d[] vertices = new Vector3d[0];
@@ -66,6 +68,49 @@ public class JRSMesh {
         indices[idx] = id;
     }
 
+    public float[] toTriPoints() {
+        float[] out = new float[vertices.length * 3];
+        for (int vdx = 0; vdx < out.length; vdx += 3) {
+            out[vdx] = (float) vertices[vdx / 3].x;
+            out[vdx + 1] = (float) vertices[vdx / 3].y;
+            out[vdx + 2] = (float) vertices[vdx / 3].z;
+        }
+
+        return out;
+    }
+
+    public float[] toTriNormals() {
+        float[] out = new float[normals.length * 3];
+        for (int ndx = 0; ndx < out.length; ndx += 3) {
+            out[ndx] = (float) normals[ndx / 3].x;
+            out[ndx + 1] = (float) vertices[ndx / 3].y;
+            out[ndx + 2] = (float) vertices[ndx / 3].z;
+        }
+
+        return out;
+    }
+
+    public float[] toTriTexCoords() {
+        float[] out = new float[texCoords.length * 2];
+        for (int tdx = 0; tdx < out.length; tdx += 2) {
+            out[tdx] = (float) normals[tdx / 2].x;
+            out[tdx + 1] = (float) vertices[tdx / 2].y;
+        }
+
+        return out;
+    }
+
+    public int[] toTriFaces() {
+        int[] out = new int[indices.length];
+        for (int fdx = 0; fdx < out.length; fdx += 3) {
+            out[fdx] = indices[fdx] * 3;
+            out[fdx + 1] = indices[fdx + 1] * 2;
+            out[fdx + 2] = indices[fdx + 2] * 3;
+        }
+
+        return out;
+    }
+
     public JSONObject toJSON() {
         JSONObject mesh = new JSONObject();
 
@@ -75,6 +120,54 @@ public class JRSMesh {
         mesh.put("indices", indices);
 
         return mesh;
+    }
+
+    public TriangleMesh toTriMesh() {
+        TriangleMesh triMesh = new TriangleMesh();
+        triMesh.setVertexFormat(VertexFormat.POINT_NORMAL_TEXCOORD);
+
+        triMesh.getPoints().setAll(toTriPoints());
+        triMesh.getNormals().setAll(toTriNormals());
+        triMesh.getTexCoords().setAll(toTriTexCoords());
+        triMesh.getFaces().setAll(toTriFaces());
+
+        return triMesh;
+    }
+
+    public static JRSMesh fromTriMesh(TriangleMesh mesh) {
+        JRSMesh jrsMesh = new JRSMesh();
+
+        jrsMesh.setVertices(new Vector3d[mesh.getPoints().size() / 3]);
+        for (int vdx = 0; vdx < mesh.getPoints().size(); vdx += 3) {
+            jrsMesh.setVertexAt(vdx, new Vector3d(
+                    mesh.getPoints().get(vdx),
+                    mesh.getPoints().get(vdx + 1),
+                    mesh.getPoints().get(vdx + 2)));
+        }
+
+        jrsMesh.setTexCoords(new Vector2d[mesh.getTexCoords().size() / 2]);
+        for (int tdx = 0; tdx < mesh.getTexCoords().size(); tdx += 2) {
+            jrsMesh.setTexCoordAt(tdx, new Vector2d(
+                    mesh.getTexCoords().get(tdx),
+                    mesh.getTexCoords().get(tdx + 1)));
+        }
+
+        jrsMesh.setNormals(new Vector3d[mesh.getNormals().size() / 3]);
+        for (int ndx = 0; ndx < mesh.getNormals().size(); ndx += 3) {
+            jrsMesh.setNormalAt(ndx, new Vector3d(
+                    mesh.getPoints().get(ndx),
+                    mesh.getPoints().get(ndx + 1),
+                    mesh.getPoints().get(ndx + 2)));
+        }
+
+        jrsMesh.setIndices(new int[mesh.getFaces().size()]);
+        for (int idx = 0; idx < mesh.getFaces().size(); idx += 3) {
+            jrsMesh.setIndexAt(idx, mesh.getFaces().get(idx) / 3);
+            jrsMesh.setIndexAt(idx + 1, mesh.getFaces().get(idx + 1) / 2);
+            jrsMesh.setIndexAt(idx + 2, mesh.getFaces().get(idx + 2) / 3);
+        }
+
+        return jrsMesh;
     }
 
     public static JRSMesh fromJSON(JSONObject jrs) {
@@ -108,7 +201,7 @@ public class JRSMesh {
         mesh.setIndices(new int[jrs.getJSONArray("indices").length()]);
 
         for (int idx = 0; idx < jrs.getJSONArray("indices").length(); idx += 3) {
-            mesh.setIndexAt(idx, jrs.getJSONArray("indices").getInt(idx) / 2);
+            mesh.setIndexAt(idx, jrs.getJSONArray("indices").getInt(idx) / 3);
             mesh.setIndexAt(idx + 1, jrs.getJSONArray("indices").getInt((idx + 1)) / 2);
             mesh.setIndexAt(idx + 2, jrs.getJSONArray("indices").getInt((idx + 2)) / 3);
         }
