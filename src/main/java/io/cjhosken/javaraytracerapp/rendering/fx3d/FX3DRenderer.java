@@ -2,6 +2,7 @@ package io.cjhosken.javaraytracerapp.rendering.fx3d;
 
 import io.cjhosken.javaraytracerapp.core.Vector2d;
 import io.cjhosken.javaraytracerapp.core.Vector3d;
+import io.cjhosken.javaraytracerapp.jrs.JRSFile;
 import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSCamera;
 import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSObject;
 import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSWorld;
@@ -55,6 +56,10 @@ public class FX3DRenderer {
     scene.setFill(Color.BLACK);
     world.getChildren().addAll(objects);
     initMouseControl();
+  }
+
+  public SubScene scene() {
+    return scene;
   }
 
   public boolean isInRenderCamera() {
@@ -200,13 +205,17 @@ public class FX3DRenderer {
     }
   }
 
-  /* TODO */
   public Vector2d getCurrentAngle() {
-    return new Vector2d();
+    return new Vector2d(currentAngleX.doubleValue(), currentAngleY.doubleValue());
   }
 
-  /* TODO */
-  public Vector3d getCameraRotationAsPosition() {
+  /* TODO: Camera Position */
+  public Vector3d getCameraPosition() {
+    /*
+    Transformation matrix?
+
+    sin cos etc.
+    */
     return new Vector3d();
   }
 
@@ -221,6 +230,17 @@ public class FX3DRenderer {
    * }
    */
 
+   public Group objects() {
+     return objects;
+   }
+
+   public void setObjects(Group newObjects) {
+    objects.getChildren().clear();
+    for (int obx = 0; obx < newObjects.getChildren().size(); obx++) {
+      addToWorld((FX3DObject) newObjects.getChildren().get(obx));
+    }
+   }
+
   public JRSWorld toJRS() {
     JRSWorld world = new JRSWorld();
     JRSObject[] jrsObjects = new JRSObject[objects.getChildren().size()];
@@ -228,12 +248,20 @@ public class FX3DRenderer {
     for (int idx = 0; idx < objects.getChildren().size(); idx++) {
       FX3DObject obj = (FX3DObject) objects.getChildren().get(idx);
       jrsObjects[idx] = obj.toJRS();
+      System.out.println(obj.name());
     }
 
     world.setObjects(jrsObjects);
     world.setCamera(JRSCamera.fromFX3D(renderCamera));
 
     return world;
+  }
+
+  public JRSFile toJRSFile() {
+    JRSFile file = new JRSFile();
+    file.setWorld(toJRS());
+
+    return file;
   }
 
   public static FX3DRenderer fromJRS(JRSWorld world) {

@@ -111,7 +111,6 @@ public class PaverCamera {
     private int convertRGB(Vector3d color, int samples) {
         double scale = 1.0 / samples;
         color = Vector3d.mult(color, scale);
-        color = color.sqrt();
         color.clamp(0, 1);
 
         int r = (int) (color.x * 255.999);

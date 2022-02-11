@@ -1,5 +1,10 @@
 package io.cjhosken.javaraytracerapp.ui.tabs;
 
+import io.cjhosken.javaraytracerapp.core.Utils;
+import io.cjhosken.javaraytracerapp.jrs.JRSFile;
+import io.cjhosken.javaraytracerapp.rendering.fx3d.FX3DRenderer;
+import io.cjhosken.javaraytracerapp.rendering.paver.PaverRenderer;
+import io.cjhosken.javaraytracerapp.ui.JRSRoot;
 import io.cjhosken.javaraytracerapp.ui.extra.JRSBooleanInput;
 import io.cjhosken.javaraytracerapp.ui.extra.JRSDoubleInput;
 import io.cjhosken.javaraytracerapp.ui.extra.JRSFileBrowser;
@@ -10,10 +15,21 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+
 public class JRSRenderTab extends Tab {
-    public JRSRenderTab() {
+    JRSRoot root;
+    JRSFileBrowser browser;
+    FX3DRenderer renderer;
+    
+    public JRSRenderTab(JRSRoot root, FX3DRenderer renderer) {
         super("Render");
         VBox tabRoot = new VBox();
+        this.root = root;
+        this.renderer = renderer;
 
         TitledPane resolutionPane = new TitledPane();
         resolutionPane.setText("Resolution");
@@ -48,10 +64,16 @@ public class JRSRenderTab extends Tab {
         outputPane.setText("Output");
         VBox outputSettings = new VBox();
         outputSettings.setAlignment(Pos.CENTER);
-
-        JRSFileBrowser browser = new JRSFileBrowser(getClass().getClassLoader().getResource("renders/image.png").toString());
-
+        browser = new JRSFileBrowser(root, "C:/");
+        try {
+            browser = new JRSFileBrowser(root, Utils.getFileFromURL(this.getClass().getClassLoader().getResource("renders/")).toString());
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
+        
         Button renderButton = new Button("Render");
+        renderButton.setOnAction(value -> render());
 
         outputSettings.getChildren().addAll(browser, renderButton);
         outputPane.setContent(outputSettings);
@@ -59,5 +81,16 @@ public class JRSRenderTab extends Tab {
         tabRoot.getChildren().addAll(resolutionPane, cameraPane, samplePane, outputPane);
 
         setContent(tabRoot);
+    }
+
+    private void render() {
+        try {
+            BufferedImage image = PaverRenderer.renderJRS(JRSFile.fromFX3D(renderer));
+            File outFile = new File("render.png");
+            ImageIO.write(image, "png", outFile);
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
     }
 }

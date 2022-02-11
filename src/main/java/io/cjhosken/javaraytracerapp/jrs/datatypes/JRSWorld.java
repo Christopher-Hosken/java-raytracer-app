@@ -3,6 +3,7 @@ package io.cjhosken.javaraytracerapp.jrs.datatypes;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import io.cjhosken.javaraytracerapp.rendering.fx3d.FX3DObject;
 import io.cjhosken.javaraytracerapp.rendering.paver.data.PaverWorld;
 
 import javafx.scene.Group;
@@ -43,18 +44,24 @@ public class JRSWorld {
         return world;
     }
 
-    /* TODO */
     public void fromFX3D(Group world) {
-    }
-
-    /* TODO */
-    public void fromPaverWorld(PaverWorld world) {
+        Group fxObjects = (Group) world.getChildren().get(0);
+        objects = new JRSObject[fxObjects.getChildren().size()]; 
+        for (int idx = 0; idx < fxObjects.getChildren().size(); idx++) {
+            FX3DObject fxObj =  (FX3DObject) fxObjects.getChildren().get(idx);
+            objects[idx] = fxObj.toJRS();
+        }
     }
 
     public JSONObject toJSON() {
         JSONObject world = new JSONObject();
         world.put("camera", camera.toJSON());
-        world.put("objects", new JSONArray(objects));
+        JSONObject[] jsonObjects = new JSONObject[objects.length];
+
+        for (int obx = 0; obx < jsonObjects.length; obx++) {
+            jsonObjects[obx] = objects[obx].toJSON();
+        }
+        world.put("objects", new JSONArray(jsonObjects));
 
         return world;
     }

@@ -19,7 +19,6 @@ public class JavaRaytracerAppApplication extends Application {
 
         Scene scene = new Scene(root, root.getWidth(), root.getHeight());
 
-
         stage.setMinWidth(JRSUI.MINWIDTH);
         stage.setMinHeight(JRSUI.MINHEIGHT);
 

@@ -1,20 +1,25 @@
 package io.cjhosken.javaraytracerapp.rendering.fx3d;
 
+
 import io.cjhosken.javaraytracerapp.core.Vector3d;
 import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSObject;
 import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSObjectType;
 import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSShader;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.shape.Box;
+import javafx.scene.shape.Cylinder;
+import javafx.scene.shape.MeshView;
 import javafx.scene.shape.Shape3D;
+import javafx.scene.shape.Sphere;
 import javafx.scene.shape.TriangleMesh;
 
 public class FX3DObject extends Group {
-  private String name;
+  private String name = "";
   private JRSObjectType type = JRSObjectType.EMPTY;
   private boolean isSelected = false;
-  private FX3DShader shader;
-  private TriangleMesh mesh;
+  private FX3DShader shader = new FX3DShader();
+  private TriangleMesh mesh = new TriangleMesh();
 
   public FX3DObject() {
     super();
@@ -72,12 +77,16 @@ public class FX3DObject extends Group {
     this.mesh = mesh;
   }
 
-  /* TODO */
+  /* TODO: Object Rotation Conversions */
   public JRSObject toJRS() {
     JRSObject obj = new JRSObject();
     obj.setName(name);
     obj.setType(type);
     obj.setLocation(new Vector3d(getTranslateX(), getTranslateY(), getTranslateZ()));
+    /*
+    Figure out how to solve rotations (use a matrix?)
+
+    */
     obj.setRotation(new Vector3d());
     obj.setScale(new Vector3d(getScaleX(), getScaleY(), getScaleZ()));
 
@@ -90,20 +99,31 @@ public class FX3DObject extends Group {
     return obj;
   }
 
-  /* TODO */
   public static FX3DObject fromJRS(JRSObject jrs) {
     FX3DObject fxObject = new FX3DObject();
+
     fxObject.setName(jrs.name());
     fxObject.setType(jrs.type());
-    fxObject.setTranslateX(jrs.location().x);
-    fxObject.setTranslateY(jrs.location().y);
-    fxObject.setTranslateZ(jrs.location().z);
-    fxObject.setRotate(0);
-    fxObject.setRotate(0);
-    fxObject.setRotate(0);
     fxObject.setScaleX(jrs.scale().x);
     fxObject.setScaleY(jrs.scale().y);
     fxObject.setScaleZ(jrs.scale().z);
+    fxObject.setTranslateX(jrs.location().x);
+    fxObject.setTranslateY(jrs.location().y);
+    fxObject.setTranslateZ(jrs.location().z);
+
+    if (fxObject.type() == JRSObjectType.OBJ) {
+      fxObject.setMesh(jrs.triangleMesh());
+        fxObject.getChildren().add(new MeshView(fxObject.mesh()));
+    } else if (fxObject.type() == JRSObjectType.PLANE) {
+      fxObject.getChildren().add(new Box(2.0, 0, 2.0));
+    } else if (fxObject.type() == JRSObjectType.SPHERE) {
+      fxObject.getChildren().add(new Sphere());
+    } else if (fxObject.type() == JRSObjectType.CUBE) {
+      fxObject.getChildren().add(new Box());
+    } else if (fxObject.type() == JRSObjectType.CYLINDER) {
+      fxObject.getChildren().add(new Cylinder());
+    }
+
 
     if (fxObject.type() == JRSObjectType.OBJ) {
       fxObject.setMesh(jrs.triangleMesh());

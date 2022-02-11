@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSSettings;
 import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSWorld;
+import io.cjhosken.javaraytracerapp.rendering.fx3d.FX3DRenderer;
 
 public class JRSFile {
     private String version = "v10";
@@ -106,9 +107,16 @@ public class JRSFile {
         return jrsFile;
     }
 
+    public static JRSFile fromFX3D(FX3DRenderer renderer) {
+        JRSFile file = new JRSFile();
+        file.setWorld(renderer.toJRS());
+    
+        return file;
+      }
+
     public static JRSFile load(File file) throws IOException {
         JRSFile jrsFile = JRSReader.read(file);
-        System.out.println("Java Raytracer Scene File: " + file + "Opened");
+        System.out.println("Java Raytracer Scene File: " + file + " Opened");
         return jrsFile;
     }
 

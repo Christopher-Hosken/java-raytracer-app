@@ -83,13 +83,13 @@ public class JRSCamera {
         return camera;
     }
 
-    /* TODO */
+    /* TODO: JRSCamera to FX3D*/
     public Camera toFX3D() {
         PerspectiveCamera camera = new PerspectiveCamera(true);
         return camera;
     }
 
-    /* TODO */
+    /* TODO: JRSCamera from FX3D */
     public static JRSCamera fromFX3D(Camera camera) {
         JRSCamera jrsCamera = new JRSCamera();
         jrsCamera.setLocation(new Vector3d(camera.getTranslateX(), camera.getTranslateY(), camera.getTranslateZ()));

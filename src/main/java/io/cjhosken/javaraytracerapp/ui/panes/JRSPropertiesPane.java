@@ -1,5 +1,6 @@
 package io.cjhosken.javaraytracerapp.ui.panes;
 
+import io.cjhosken.javaraytracerapp.rendering.fx3d.FX3DRenderer;
 import io.cjhosken.javaraytracerapp.ui.JRSRoot;
 import io.cjhosken.javaraytracerapp.ui.JRSUI;
 import io.cjhosken.javaraytracerapp.ui.tabs.JRSObjectTab;
@@ -12,7 +13,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 
 public class JRSPropertiesPane extends TabPane {
-    public JRSPropertiesPane(JRSRoot root) {
+    public JRSPropertiesPane(JRSRoot root, FX3DRenderer renderer) {
         super();
         setPrefWidth(JRSUI.PREFPROPERTIESWIDTH);
         setMinWidth(JRSUI.MINPROPERTIESWIDTH);
@@ -24,7 +25,7 @@ public class JRSPropertiesPane extends TabPane {
         setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
         JRSSceneTab sceneTab = new JRSSceneTab();
-        JRSRenderTab renderTab = new JRSRenderTab();
+        JRSRenderTab renderTab = new JRSRenderTab(root, renderer);
         JRSObjectTab objectTab = new JRSObjectTab();
 
         getTabs().addAll(sceneTab, renderTab, objectTab);
