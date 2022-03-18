@@ -19,7 +19,7 @@ public class JRSCamera {
         location = new Vector3d();
         direction = new Vector3d();
         aperture = 2.0;
-        fov = 60.0;
+        fov = 30.0;
         dof = false;
         focusDistance = 1;
     }
@@ -84,7 +84,7 @@ public class JRSCamera {
     }
 
     /* TODO: JRSCamera to FX3D*/
-    public Camera toFX3D() {
+    public PerspectiveCamera toFX3D() {
         PerspectiveCamera camera = new PerspectiveCamera(true);
         return camera;
     }

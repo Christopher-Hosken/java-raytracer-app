@@ -2,11 +2,13 @@ package io.cjhosken.javaraytracerapp.rendering.paver.data;
 
 import io.cjhosken.javaraytracerapp.core.Ray;
 import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSObject;
+import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSObjectType;
 import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSWorld;
+import io.cjhosken.javaraytracerapp.rendering.paver.data.objects.PaverSphere;
 
 public class PaverWorld {
-  PaverObject[] objects;
-  PaverCamera camera;
+  PaverObject[] objects = new PaverObject[0];
+  PaverCamera camera = new PaverCamera();
 
   public PaverWorld() {
   }
@@ -34,11 +36,27 @@ public class PaverWorld {
     return paverWorld;
   }
 
+  public void add(PaverObject object) {
+    PaverObject[] tmp = objects;
+    objects = new PaverObject[tmp.length + 1];
+
+    for (int tdx = 0; tdx < tmp.length; tdx++) {
+      objects[tdx] = tmp[tdx];
+    }
+
+    objects[objects.length - 1] = object;
+  }
+
   public void objectsFromJRSArray(JRSObject[] jrsObjects) {
     objects = new PaverObject[jrsObjects.length];
 
     for (int idx = 0; idx < objects.length; idx++) {
-      objects[idx] = PaverObject.fromJRS(jrsObjects[idx]);
+      JRSObject jObj = jrsObjects[idx];
+      if (jObj.type() == JRSObjectType.SPHERE) {
+        objects[idx] = PaverSphere.fromJRS(jObj);
+      } else {
+        objects[idx] = PaverObject.fromJRS(jrsObjects[idx]);
+      }
     }
   }
 

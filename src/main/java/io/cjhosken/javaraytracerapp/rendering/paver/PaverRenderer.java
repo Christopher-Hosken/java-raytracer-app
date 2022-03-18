@@ -3,11 +3,12 @@ package io.cjhosken.javaraytracerapp.rendering.paver;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-
+import io.cjhosken.javaraytracerapp.core.Vector3d;
 import io.cjhosken.javaraytracerapp.jrs.JRSFile;
 import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSSettings;
 import io.cjhosken.javaraytracerapp.rendering.paver.data.PaverCamera;
 import io.cjhosken.javaraytracerapp.rendering.paver.data.PaverWorld;
+import io.cjhosken.javaraytracerapp.rendering.paver.data.objects.PaverSphere;
 
 public class PaverRenderer {
   public PaverRenderer() {

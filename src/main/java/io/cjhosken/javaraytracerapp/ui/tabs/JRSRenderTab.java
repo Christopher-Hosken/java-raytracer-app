@@ -43,7 +43,7 @@ public class JRSRenderTab extends Tab {
         TitledPane cameraPane = new TitledPane();
         cameraPane.setText("Camera");
         VBox cameraSettings = new VBox();
-        JRSDoubleInput fov = new JRSDoubleInput("FOV (deg)", 60);
+        JRSDoubleInput fov = new JRSDoubleInput("FOV (deg)", 30);
         JRSDoubleInput aperture = new JRSDoubleInput("Apeture", 2);
         JRSBooleanInput dof = new JRSBooleanInput("Use DOF?", false);
         JRSDoubleInput focusDistance = new JRSDoubleInput("DOF Distance", 1);
@@ -85,6 +85,7 @@ public class JRSRenderTab extends Tab {
 
     private void render() {
         try {
+            System.out.println(JRSFile.fromFX3D(renderer).toJSON().toString());
             BufferedImage image = PaverRenderer.renderJRS(JRSFile.fromFX3D(renderer));
             File outFile = new File("render.png");
             ImageIO.write(image, "png", outFile);

@@ -5,15 +5,19 @@ import io.cjhosken.javaraytracerapp.core.Vector3d;
 import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSObject;
 
 public class PaverObject {
-  protected String name;
-  protected Vector3d location;
-  protected Vector3d rotation;
-  protected Vector3d scale;
-  protected Vector3d tmpNormal;
-  protected double tmpT;
+  protected String name = "";
+  protected Vector3d location = new Vector3d();
+  protected Vector3d rotation = new Vector3d();
+  protected Vector3d scale = new Vector3d(1, 1, 1);
+  protected Vector3d tmpNormal = new Vector3d();
+  protected double tmpT = 0;;
   protected PaverShader shader = new PaverShader();
 
   public PaverObject() {
+  }
+
+  public PaverObject(String name) {
+    this.name = name;
   }
 
   public String name() {
@@ -74,6 +78,15 @@ public class PaverObject {
 
   public static PaverObject fromJRS(JRSObject object) {
     PaverObject paverObject = new PaverObject();
+
+    paverObject.setName(object.name());
+
+    paverObject.setLocation(object.location());
+    paverObject.setRotation(object.rotation());
+    paverObject.setLocation(object.scale());
+
+    paverObject.setShader(PaverShader.fromJRS(object.shader()));
+
     return paverObject;
   }
 

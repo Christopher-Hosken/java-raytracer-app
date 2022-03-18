@@ -12,7 +12,9 @@ public class JRSObject {
     protected Vector3d location;
     protected Vector3d rotation;
     protected Vector3d scale;
+
     protected JRSMesh mesh;
+    protected double radius;
 
     protected JRSShader shader;
 
@@ -24,6 +26,7 @@ public class JRSObject {
         scale = new Vector3d(1, 1, 1);
         mesh = new JRSMesh();
         shader = new JRSShader();
+        radius = 1;
     }
 
     public String name() {
@@ -48,6 +51,10 @@ public class JRSObject {
 
     public JRSMesh mesh() {
         return mesh;
+    }
+
+    public double radius() {
+        return radius;
     }
 
     public TriangleMesh triangleMesh() {
@@ -82,6 +89,10 @@ public class JRSObject {
         this.mesh = mesh;
     }
 
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
     public void fromTriangleMesh(TriangleMesh mesh) {
         this.mesh = JRSMesh.fromTriMesh(mesh);
     }
@@ -108,6 +119,8 @@ public class JRSObject {
 
         if (type == JRSObjectType.OBJ) {
             object.put("mesh", mesh.toJSON());
+        } else if (type == JRSObjectType.SPHERE) {
+            object.put("radius", radius);
         }
 
         object.put("shader", shader.toJSON());
@@ -125,6 +138,8 @@ public class JRSObject {
 
         if (jrsObject.type() == JRSObjectType.OBJ) {
             jrsObject.setMesh(JRSMesh.fromJSON(jrs.getJSONObject("mesh")));
+        } if (jrsObject.type() == JRSObjectType.SPHERE) {
+            jrsObject.setRadius(jrs.getDouble("radius"));
         }
 
         jrsObject.setShader(JRSShader.fromJSON(jrs.getJSONObject("shader")));

@@ -24,7 +24,7 @@ public class JRSPropertiesPane extends TabPane {
         setTabMaxHeight(JRSUI.TABHEIGHT);
         setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
-        JRSSceneTab sceneTab = new JRSSceneTab();
+        JRSSceneTab sceneTab = new JRSSceneTab(renderer);
         JRSRenderTab renderTab = new JRSRenderTab(root, renderer);
         JRSObjectTab objectTab = new JRSObjectTab();
 

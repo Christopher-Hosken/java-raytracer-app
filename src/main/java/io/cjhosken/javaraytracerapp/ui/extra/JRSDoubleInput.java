@@ -8,12 +8,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
 public class JRSDoubleInput extends HBox {
+    private TextField input;
+
     public JRSDoubleInput(String name, double i0) {
         setAlignment(Pos.CENTER_RIGHT);
         setSpacing(JRSUI.LABELINPUTSPACING);
         Label label = new Label(name);
 
-        TextField input = new TextField(String.valueOf(i0));
+        input = new TextField(String.valueOf(i0));
 
         input.textProperty()
                 .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
@@ -23,5 +25,9 @@ public class JRSDoubleInput extends HBox {
                 });
 
         getChildren().addAll(label, input);
+    }
+
+    public TextField input() {
+        return input;
     }
 }

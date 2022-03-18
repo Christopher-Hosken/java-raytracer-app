@@ -7,13 +7,19 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
 public class JRSStringInput extends HBox {
+    private TextField input;
+
     public JRSStringInput(String name, String s0) {
         setAlignment(Pos.CENTER_RIGHT);
         setSpacing(JRSUI.LABELINPUTSPACING);
         Label label = new Label(name);
 
-        TextField input = new TextField(s0);
+        input = new TextField(s0);
 
         getChildren().addAll(label, input);
+    }
+
+    public TextField input() {
+        return input;
     }
 }

@@ -2,11 +2,12 @@ package io.cjhosken.javaraytracerapp.rendering.paver.data;
 
 import io.cjhosken.javaraytracerapp.core.Ray;
 import io.cjhosken.javaraytracerapp.core.Vector3d;
+import io.cjhosken.javaraytracerapp.jrs.datatypes.JRSShader;
 
 public class PaverShader {
     protected String name;
-    protected Vector3d color;
-    protected double roughness;
+    protected Vector3d color = new Vector3d(1, 1, 1);
+    protected double roughness = 0.5;
 
     public PaverShader() {
     }
@@ -37,5 +38,13 @@ public class PaverShader {
 
     public Ray scatter(PaverObject object, Ray ray) {
         return new Ray(ray.at(object.tmpT()), object.tmpNormal());
+    }
+
+    public static PaverShader fromJRS(JRSShader shader) {
+        PaverShader paverShader = new PaverShader();
+        paverShader.setName(shader.name());
+        paverShader.setColor(shader.color());
+        paverShader.setRoughness(shader.roughness());
+        return paverShader;
     }
 }

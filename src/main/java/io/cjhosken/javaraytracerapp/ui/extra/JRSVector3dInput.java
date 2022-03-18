@@ -9,6 +9,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
 public class JRSVector3dInput extends HBox {
+    private TextField inputX;
+    private TextField inputY;
+    private TextField inputZ;
+
     public JRSVector3dInput(String name, Vector3d v) {
         setAlignment(Pos.CENTER_RIGHT);
         setSpacing(JRSUI.LABELINPUTSPACING);
@@ -16,9 +20,9 @@ public class JRSVector3dInput extends HBox {
 
         HBox row = new HBox();
 
-        TextField inputX = new TextField(String.valueOf(v.x));
-        TextField inputY = new TextField(String.valueOf(v.y));
-        TextField inputZ = new TextField(String.valueOf(v.z));
+        inputX = new TextField(String.valueOf(v.x));
+        inputY = new TextField(String.valueOf(v.y));
+        inputZ = new TextField(String.valueOf(v.z));
 
         row.getChildren().addAll(inputX, inputY, inputZ);
 
@@ -44,5 +48,17 @@ public class JRSVector3dInput extends HBox {
                 });
 
         getChildren().addAll(label, row);
+    }
+
+    public TextField inputX() {
+        return inputX;
+    }
+
+    public TextField inputY() {
+        return inputY;
+    }
+
+    public TextField inputZ() {
+        return inputZ;
     }
 }

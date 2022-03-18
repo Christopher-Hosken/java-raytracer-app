@@ -69,7 +69,7 @@ public class PaverCamera {
     }
 
     private void solvePosition(double ratio) {
-        double h = Math.tan(Math.toRadians(fov) / 2.0);
+        double h = Math.tan(Math.toRadians(fov) / 2);
         double vh = 2 * h;
         double vw = ratio * vh;
 
@@ -77,35 +77,29 @@ public class PaverCamera {
         u = Vector3d.cross(new Vector3d(0, 1, 0), w).unitVector();
         v = Vector3d.cross(w, u);
 
-        hori = Vector3d.mult((focusDistance * vw), u);
-        vert = Vector3d.mult((focusDistance * vh), v);
-        llc = Vector3d.sub(Vector3d.sub(Vector3d.sub(location, Vector3d.div(hori, 2)), Vector3d.div(vert, 2)), Vector3d.mult(focusDistance, w));
+        hori = Vector3d.mult(vw, u);
+        vert = Vector3d.mult(vh, v);
+        llc = Vector3d.sub(location, Vector3d.add(Vector3d.add(Vector3d.div(hori, 2), Vector3d.div(vert, 2)), w));
+        System.out.println(llc.toString());
     }
 
     private Ray getRay(double s, double t) {
-        Vector3d rd = Vector3d.mult(aperture / 2.0, Vector3d.randomInUnitDisc());
-        if (!dof) {
-            rd = new Vector3d(1, 1, 1);
-        }
-        Vector3d offset = Vector3d.add(Vector3d.mult(u, rd.x), Vector3d.mult(v, rd.y));
-        Vector3d target = Vector3d.sub(
-                Vector3d.sub(Vector3d.add(Vector3d.add(llc, Vector3d.mult(s, hori)), Vector3d.mult(t, vert)), location),
-                offset);
+        Vector3d target = Vector3d.sub(Vector3d.add(llc, Vector3d.add(Vector3d.mult(s, hori), Vector3d.mult(t, vert))), location);
 
-        return new Ray(Vector3d.add(location, offset), target);
+        return new Ray(location, target);
     }
 
     private Vector3d solveRay(PaverWorld world, Ray ray, int d, int b) {
         PaverObject obj = world.hit(ray);
 
         if (obj != null) {
-            return Vector3d.mult(obj.shader().color(), solveRay(world, obj.shader().scatter(obj, ray), d - 1, b));
+            return Vector3d.mult(Vector3d.mult(obj.shader().color(), 0.5), solveRay(world, obj.shader().scatter(obj, ray), d - 1, b));
         }
 
-        double u = ray.direction().unitVector().y;
+        double u = 0.5 * (ray.direction().unitVector().y + 1);
         return Vector3d.add(
-                Vector3d.mult(new Vector3d(0.3, 0.3, 0.5), (1 - u)),
-                Vector3d.mult(new Vector3d(0.25, 0.5, 1), u));
+                Vector3d.mult(new Vector3d(1, 1, 1), (1 - u)),
+                Vector3d.mult(new Vector3d(0.5, 0.7, 1), u));
     }
 
     private int convertRGB(Vector3d color, int samples) {

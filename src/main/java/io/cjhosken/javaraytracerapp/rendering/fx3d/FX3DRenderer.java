@@ -22,8 +22,8 @@ public class FX3DRenderer {
   private Group world = new Group();
   private Group objects = new Group();
   private SubScene scene = new SubScene(world, 960, 685, true, SceneAntialiasing.DISABLED);
-  private Camera viewportCamera = new PerspectiveCamera();
-  private Camera renderCamera = new PerspectiveCamera();
+  private PerspectiveCamera viewportCamera = new PerspectiveCamera();
+  private PerspectiveCamera renderCamera = new PerspectiveCamera();
   private boolean isInRenderCamera = false;
 
   private Vector2d last = new Vector2d();
@@ -66,11 +66,11 @@ public class FX3DRenderer {
     return isInRenderCamera;
   }
 
-  public Camera viewportCamera() {
+  public PerspectiveCamera viewportCamera() {
     return this.viewportCamera;
   }
 
-  public Camera renderCamera() {
+  public PerspectiveCamera renderCamera() {
     return this.renderCamera;
   }
 
@@ -78,7 +78,7 @@ public class FX3DRenderer {
     return scene.getCamera();
   }
 
-  public void setRenderCamera(Camera cam) {
+  public void setRenderCamera(PerspectiveCamera cam) {
     renderCamera = cam;
   }
 
